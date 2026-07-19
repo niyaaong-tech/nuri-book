@@ -73,10 +73,13 @@ body{background:#06080e;font-family:'Nanum Myeongjo',serif;overflow-x:hidden}
 .textpage.dark{background:#0b0f1a}
 .textpage p{color:#4a4438;font-size:calc(var(--fs)*1.05);line-height:2.2;letter-spacing:.04em}
 .textpage.dark p{color:#c9c2b2}
-.titlepage{width:100%;height:100%;background:#0b0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%;position:relative}
-.titlepage h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:calc(var(--fs)*2.2)}
-.titlepage .sub{color:#5a637a;font-size:calc(var(--fs)*0.75);letter-spacing:.3em;font-family:sans-serif}
-.titlepage .star-deco{color:#c9973a;font-size:calc(var(--fs)*1.6)}
+.titlepage{width:100%;height:100%;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8%}
+.titlepage .cover-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.titlepage .cover-grad{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(4,6,12,.55) 60%,rgba(4,6,12,.82) 80%,rgba(4,6,12,.93) 100%)}
+.titlepage .cover-text{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px}
+.titlepage h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:calc(var(--fs)*2.2);text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.titlepage .sub{color:#8a96a8;font-size:calc(var(--fs)*0.75);letter-spacing:.3em;font-family:sans-serif}
+.titlepage .star-deco{color:#c9973a;font-size:calc(var(--fs)*1.4);margin-bottom:4px}
 .endpage{width:100%;height:100%;background:#ece5d6;position:relative;display:flex;align-items:center;justify-content:center}
 .endpage p{color:#6b6355;font-size:calc(var(--fs)*1.1);text-align:center;letter-spacing:.3em;line-height:2.5}
 .endpage .credit{position:absolute;bottom:5%;left:0;right:0;text-align:center;color:#9a9284;font-family:sans-serif;font-size:calc(var(--fs)*0.65);letter-spacing:.07em}
@@ -131,13 +134,13 @@ body{background:#06080e;font-family:'Nanum Myeongjo',serif;overflow-x:hidden}
 /* 웹툰 타이틀 */
 .wt-title{
   width:100%;max-width:var(--img-max);
-  background:#0b0f1a;aspect-ratio:3/4;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5%;position:relative;
+  aspect-ratio:3/4;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:8%;
 }
-.wt-title h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:clamp(18px,5vw,34px)}
-.wt-title .sub{color:#5a637a;font-size:clamp(9px,2.2vw,13px);letter-spacing:.3em;font-family:sans-serif}
-.wt-title .star-deco{color:#c9973a;font-size:clamp(16px,4vw,24px)}
+.wt-title h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:clamp(18px,5vw,34px);text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.wt-title .sub{color:#8a96a8;font-size:clamp(9px,2.2vw,13px);letter-spacing:.3em;font-family:sans-serif}
+.wt-title .star-deco{color:#c9973a;font-size:clamp(16px,4vw,24px);margin-bottom:4px}
 
 /* 공통 */
 #tbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.18);font-size:11px;font-family:sans-serif;letter-spacing:.15em;pointer-events:none;white-space:nowrap;z-index:100}
@@ -167,6 +170,7 @@ body{background:#06080e;font-family:'Nanum Myeongjo',serif;overflow-x:hidden}
 <script>
 // ── 파일 ID ──────────────────────────────────────────────
 const FILE_IDS={
+  0:"1iEx4V-QjfAmxN8T2wLpdznmAtf3RuQdL",
   1:"1GciUge75G0M45CgHfE-NVuA2lHeCei9K",  2:"12Y6qDxug4UO6X0GiEs3lADw9VBesV6oP",
   3:"1uVNjtUvQawriFlA-Bet_MNvUKYdjWn5k",  4:"1seUmV5pMvpCHq4gxwUuXeXsASo82J4e_",
   5:"1fdArcqcUU__yvt8i_tosh62aYQ73-aFE",  6:"1lOH71yJyUlV3oYHw770PlNDaxPfaLgCm",
@@ -294,10 +298,13 @@ function buildBook(){
       const L=half(),R=half();
       L.style.background='#0b0f1a';
       const tp=document.createElement('div');tp.className='titlepage';
-      // 토글 버튼은 타이틀 면에 absolute로
       const btn=document.createElement('button');btn.id='toggle-btn';btn.textContent='웹툰으로 보기';btn.onclick=toggleView;
-      tp.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
-      tp.appendChild(btn);
+      const coverImg=mkImgEl(0,'cover-img');
+      const grad=document.createElement('div');grad.className='cover-grad';
+      const ct=document.createElement('div');ct.className='cover-text';
+      ct.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
+      btn.style.cssText='position:absolute;top:16px;right:16px;z-index:3;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-family:sans-serif;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:20px;cursor:pointer;backdrop-filter:blur(6px)';
+      tp.appendChild(coverImg);tp.appendChild(grad);tp.appendChild(ct);tp.appendChild(btn);
       R.appendChild(tp);w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }else if(s.t==='pair'){
       const L=half(),R=half();
@@ -350,11 +357,14 @@ function buildWebtoon(){
   // 타이틀 블록
   const titleBlock=document.createElement('div');titleBlock.className='wt-scene';
   const titleEl=document.createElement('div');titleEl.className='wt-title';
-  const btn=document.createElement('button');btn.id='toggle-btn-wt';btn.className='';
-  btn.style.cssText='position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-family:sans-serif;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:20px;cursor:pointer;';
-  btn.textContent='서적으로 보기';btn.onclick=toggleView;
-  titleEl.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
-  titleEl.appendChild(btn);
+  const wtCoverImg=mkImgEl(0,'cover-img');
+  const wtGrad=document.createElement('div');wtGrad.className='cover-grad';
+  const wtCt=document.createElement('div');wtCt.className='cover-text';
+  wtCt.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
+  const wtBtn=document.createElement('button');
+  wtBtn.style.cssText='position:absolute;top:16px;right:16px;z-index:3;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-family:sans-serif;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:20px;cursor:pointer;backdrop-filter:blur(6px)';
+  wtBtn.textContent='서적으로 보기';wtBtn.onclick=toggleView;
+  titleEl.appendChild(wtCoverImg);titleEl.appendChild(wtGrad);titleEl.appendChild(wtCt);titleEl.appendChild(wtBtn);
   titleBlock.appendChild(titleEl);
   wrap.appendChild(titleBlock);
 
