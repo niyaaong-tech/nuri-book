@@ -8,67 +8,165 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--fs:13px}
+:root{--fs:13px;--img-max:800px}
 body{background:#06080e;font-family:'Nanum Myeongjo',serif;overflow-x:hidden}
+
+/* ── 로딩 ── */
 #loading{position:fixed;inset:0;background:#06080e;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
 #loading .star{color:#c9973a;font-size:32px;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.2}50%{opacity:1}}
 #loading p{color:rgba(255,255,255,.4);font-family:sans-serif;font-size:13px;letter-spacing:.1em}
 #loading.done{display:none}
-.swrap{display:flex;flex-direction:column;align-items:center;padding:6vh 0 10vh;gap:6vh}
-.spread{position:relative;width:min(96vw,calc(88vh*1.5));aspect-ratio:3/2;flex-shrink:0;background:#0a0c12;box-shadow:0 18px 72px rgba(0,0,0,.88);display:flex;scroll-margin-top:3vh}
-.spread::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:44px;transform:translateX(-50%);background:linear-gradient(to right,transparent,rgba(0,0,0,.28) 46%,rgba(0,0,0,.38) 50%,rgba(0,0,0,.28) 54%,transparent);pointer-events:none;z-index:5}
+
+/* ── 뷰 토글 버튼 ── */
+#toggle-btn{
+  position:absolute;top:16px;right:16px;z-index:50;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.65);font-family:sans-serif;font-size:11px;
+  letter-spacing:.1em;padding:6px 14px;border-radius:20px;cursor:pointer;
+  backdrop-filter:blur(6px);transition:all .2s;white-space:nowrap;
+}
+#toggle-btn:hover{background:rgba(255,255,255,.18);color:#fff}
+
+/* ════════════════════════════════
+   서적뷰 (BOOK VIEW)
+════════════════════════════════ */
+#book-view{display:flex;flex-direction:column;align-items:center;padding:6vh 0 10vh;gap:6vh}
+#book-view.hidden{display:none}
+
+.spread{
+  position:relative;width:min(96vw,calc(88vh*1.5));aspect-ratio:3/2;
+  flex-shrink:0;background:#0a0c12;box-shadow:0 18px 72px rgba(0,0,0,.88);display:flex;
+  scroll-margin-top:3vh;
+}
+.spread::after{
+  content:'';position:absolute;top:0;bottom:0;left:50%;width:44px;
+  transform:translateX(-50%);
+  background:linear-gradient(to right,transparent,rgba(0,0,0,.25) 46%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.25) 54%,transparent);
+  pointer-events:none;z-index:5;
+}
 .spread.fullbleed{display:block}
 .pageL,.pageR{position:relative;flex:1;overflow:hidden}
 .pg-fill{width:100%;height:100%;position:relative}
 .pg-img{width:100%;height:100%;object-fit:cover;display:block}
 .img-err{width:100%;height:100%;background:#0f1420;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#2a3450;font-family:sans-serif;font-size:12px}
 .img-err .num{font-size:28px;color:#1e2840}
+
+/* 오버레이 — 불투명도 낮춤 */
 .txt{position:absolute;z-index:4}
 .txt p{line-height:1.95;font-size:var(--fs)}
-.t-ov{left:0;right:0;bottom:0;padding:7% 8% 5%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.52) 30%,rgba(3,5,10,.85) 65%,rgba(3,5,10,.94) 100%);color:#f2ece0;text-shadow:0 1px 5px rgba(0,0,0,.9)}
-.t-ovS{left:0;right:0;bottom:0;padding:7% 8% 5%;background:linear-gradient(to bottom,transparent 0%,rgba(4,6,13,.62) 22%,rgba(4,6,13,.9) 58%,rgba(4,6,13,.97) 100%);color:#f2ece0;text-shadow:0 1px 5px rgba(0,0,0,.9)}
-.t-pl{color:#e9e2d2;text-shadow:0 1px 6px rgba(0,0,0,.85)}
-.t-pd{color:#4a4438}
+.t-ov{left:0;right:0;bottom:0;padding:7% 8% 5%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.30) 30%,rgba(3,5,10,.58) 62%,rgba(3,5,10,.72) 100%);
+  color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.85)}
+.t-ovS{left:0;right:0;bottom:0;padding:7% 8% 5%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(4,6,13,.38) 25%,rgba(4,6,13,.65) 58%,rgba(4,6,13,.78) 100%);
+  color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.t-pl{color:#e9e2d2;text-shadow:0 2px 8px rgba(0,0,0,.95)}
+.t-pd{color:#4a4438;text-shadow:none}
 .pos-tl{top:6%;left:8%;right:52%}
 .pos-l{top:28%;left:7%;right:52%}
 .pos-r{top:14%;left:54%;right:6%}
 .pos-bl{bottom:7%;left:7%;right:48%}
 .sm p{font-size:calc(var(--fs)*0.82);line-height:2.1}
+
 .textpage{width:100%;height:100%;background:#ece5d6;display:flex;align-items:center;justify-content:center;padding:12%}
 .textpage.dark{background:#0b0f1a}
 .textpage p{color:#4a4438;font-size:calc(var(--fs)*1.05);line-height:2.2;letter-spacing:.04em}
 .textpage.dark p{color:#c9c2b2}
-.titlepage{width:100%;height:100%;background:#0b0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%}
+.titlepage{width:100%;height:100%;background:#0b0f1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%;position:relative}
 .titlepage h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:calc(var(--fs)*2.2)}
 .titlepage .sub{color:#5a637a;font-size:calc(var(--fs)*0.75);letter-spacing:.3em;font-family:sans-serif}
-.titlepage .star{color:#c9973a;font-size:calc(var(--fs)*1.6)}
+.titlepage .star-deco{color:#c9973a;font-size:calc(var(--fs)*1.6)}
 .endpage{width:100%;height:100%;background:#ece5d6;position:relative;display:flex;align-items:center;justify-content:center}
 .endpage p{color:#6b6355;font-size:calc(var(--fs)*1.1);text-align:center;letter-spacing:.3em;line-height:2.5}
 .endpage .credit{position:absolute;bottom:5%;left:0;right:0;text-align:center;color:#9a9284;font-family:sans-serif;font-size:calc(var(--fs)*0.65);letter-spacing:.07em}
 .review{position:absolute;top:8px;left:8px;z-index:9;background:rgba(180,140,40,.88);color:#0a0c12;font-family:sans-serif;font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px}
+
+/* 서적뷰 네비 */
 #nav{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:200}
+#nav.hidden{display:none}
 .nb{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;backdrop-filter:blur(6px);box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .nb:hover{background:rgba(255,255,255,.17);color:#fff;transform:scale(1.08)}
 .nb:disabled{opacity:.18;cursor:default;transform:none}
 #ind{color:rgba(255,255,255,.3);font-family:sans-serif;font-size:11px;letter-spacing:.06em;text-align:center}
+
+/* ════════════════════════════════
+   웹툰뷰 (WEBTOON VIEW)
+════════════════════════════════ */
+#webtoon-view{display:none;flex-direction:column;align-items:center;padding:0 0 10vh}
+#webtoon-view.active{display:flex}
+
+.wt-scene{width:100%;max-width:var(--img-max);position:relative}
+
+/* 웹툰 이미지 */
+.wt-img{position:relative;width:100%}
+.wt-img img{width:100%;display:block;aspect-ratio:3/4;object-fit:cover}
+
+/* 웹툰 오버레이 (서적뷰보다 더 가볍게) */
+.wt-img .wt-ov{
+  position:absolute;left:0;right:0;bottom:0;padding:12% 9% 7%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.22) 32%,rgba(3,5,10,.50) 64%,rgba(3,5,10,.62) 100%);
+  color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.8);
+}
+.wt-img .wt-ov p{line-height:2.05;font-size:clamp(11px,3.2vw,16px)}
+.wt-img .wt-ovS{
+  position:absolute;left:0;right:0;bottom:0;padding:12% 9% 7%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(4,6,13,.28) 28%,rgba(4,6,13,.55) 58%,rgba(4,6,13,.70) 100%);
+  color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.9);
+}
+.wt-img .wt-ovS p{line-height:2.05;font-size:clamp(11px,3.2vw,16px)}
+
+/* 웹툰 갭 텍스트 */
+.wt-gap{
+  width:100%;background:#07090f;
+  padding:5vh 10% 5vh;
+  display:flex;align-items:center;justify-content:flex-start;
+}
+.wt-gap.center{justify-content:center;text-align:center}
+.wt-gap p{color:#ddd7c8;line-height:2.1;font-size:clamp(12px,3.4vw,16px);letter-spacing:.03em}
+
+/* 웹툰 장면 구분선 */
+.wt-rule{width:100%;max-width:var(--img-max);height:1px;background:rgba(255,255,255,.04);margin:0 auto}
+
+/* 웹툰 타이틀 */
+.wt-title{
+  width:100%;max-width:var(--img-max);
+  background:#0b0f1a;aspect-ratio:3/4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5%;position:relative;
+}
+.wt-title h1{color:#e9e2d2;font-weight:700;letter-spacing:.3em;font-size:clamp(18px,5vw,34px)}
+.wt-title .sub{color:#5a637a;font-size:clamp(9px,2.2vw,13px);letter-spacing:.3em;font-family:sans-serif}
+.wt-title .star-deco{color:#c9973a;font-size:clamp(16px,4vw,24px)}
+
+/* 공통 */
 #tbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.18);font-size:11px;font-family:sans-serif;letter-spacing:.15em;pointer-events:none;white-space:nowrap;z-index:100}
-#status{position:fixed;bottom:12px;left:16px;color:rgba(255,255,255,.18);font-family:sans-serif;font-size:10px;letter-spacing:.08em}
+#status{position:fixed;bottom:12px;left:16px;color:rgba(255,255,255,.18);font-family:sans-serif;font-size:10px;letter-spacing:.08em;z-index:100}
 </style>
 </head>
 <body>
-<div id="loading"><div class="star">✦</div><p id="loadmsg">이미지 목록 로드 중…</p></div>
-<div id="tbar">이야기가 마르던 밤 · 펼침면 가편집</div>
-<div class="swrap" id="swrap"></div>
+
+<div id="loading"><div class="star">★</div><p id="loadmsg">이미지 목록 로드 중…</p></div>
+<div id="tbar">이야기가 마르던 밤</div>
+
+<!-- 서적뷰 -->
+<div id="book-view"></div>
+
+<!-- 웹툰뷰 -->
+<div id="webtoon-view"></div>
+
+<!-- 서적뷰 네비 -->
 <div id="nav">
   <button class="nb" id="prev" onclick="go(-1)">↑</button>
   <span id="ind">— / —</span>
   <button class="nb" id="next" onclick="go(1)">↓</button>
 </div>
+
 <div id="status"></div>
+
 <script>
-const SHEET_ID='1hvJdwb7n4Wkx9DlUNG3pygzKEbmzfkiXNuoIBadBaeE';
-const FALLBACK_IDS={
+// ── 파일 ID ──────────────────────────────────────────────
+const FILE_IDS={
   1:"1GciUge75G0M45CgHfE-NVuA2lHeCei9K",  2:"12Y6qDxug4UO6X0GiEs3lADw9VBesV6oP",
   3:"1uVNjtUvQawriFlA-Bet_MNvUKYdjWn5k",  4:"1seUmV5pMvpCHq4gxwUuXeXsASo82J4e_",
   5:"1fdArcqcUU__yvt8i_tosh62aYQ73-aFE",  6:"1lOH71yJyUlV3oYHw770PlNDaxPfaLgCm",
@@ -83,24 +181,14 @@ const FALLBACK_IDS={
  23:"1qNfBxSWMNr1rt1hq4V6fkfqb5CGdrFvF", 24:"1qmeCChsVIsikALDs3VDGRXlpiBA4uPmq",
  25:"1qSsza6mtu5CJ9h2H9chmHY5hLF8K2h8I", 26:"1qKZtoB9SYJj3JFmSXHL2tH4evUhYVCm7"
 };
+const imgSrc=id=>`https://drive.google.com/uc?export=view&id=${id}`;
+const fallbacks=id=>[
+  `https://drive.google.com/uc?export=view&id=${id}`,
+  `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
+  `https://lh3.googleusercontent.com/d/${id}`
+];
 
-function parseCSV(t){const rows=[];for(const l of t.trim().split('\n')){const c=[];let cur='',q=false;for(const ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){c.push(cur.trim());cur='';}else cur+=ch;}c.push(cur.trim());rows.push(c);}return rows;}
-
-async function loadIDs(){
-  try{
-    const r=await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`,{credentials:'omit'});
-    if(!r.ok)throw new Error(r.status);
-    const rows=parseCSV(await r.text()).slice(1);
-    const m={};
-    rows.forEach(r=>{const n=parseInt(r[0]);if(n>=1&&n<=26&&r[2])m[n]=r[2];});
-    if(Object.keys(m).length>20){document.getElementById('status').textContent='시트에서 ID 로드 완료';return m;}
-    throw new Error('행 부족');
-  }catch(e){
-    document.getElementById('status').textContent='시트 로드 실패 — 내장 ID 사용: '+e.message;
-    return FALLBACK_IDS;
-  }
-}
-
+// ── 텍스트 ───────────────────────────────────────────────
 const T={
  1:"옛날, 아주 먼 옛날.<br>하늘의 별들이 지금보다 훨씬 낮게 떠 있던 시절이 있었습니다.<br><br>손을 뻗으면 닿을 것처럼.<br>지붕 위에 앉으면 별의 숨소리가 들릴 것처럼.<br><br>그 시절, 세상의 이름은 누리였습니다.",
  2:"누리의 별들은 조금 특별했습니다.<br><br>빛나는 일 말고, 좋아하는 일이 하나 더 있었거든요.<br><br>이야기를 듣는 일이었습니다.",
@@ -130,7 +218,8 @@ const T={
 26:"그날 밤부터, 잠들었던 별들이<br>하나둘 눈을 떴습니다.<br><br>언덕에는 다시 발걸음이 늘고,<br>밤마다 반짝이는 실이 하늘로 올랐습니다.<br><br>그리고 별들은 다시, 조금씩 낮아졌습니다.<br><br>손을 뻗으면 닿을 것처럼.<br>지붕 위에 앉으면,<br>숨소리가 들릴 것처럼."
 };
 
-const CFG={
+// ── 서적뷰 설정 ──────────────────────────────────────────
+const BCFG={
  1:{m:'ov'},2:{m:'pl',p:'pos-tl'},3:{m:'ov'},4:{m:'ov'},5:{m:'ovS'},6:{m:'ovS'},
  7:{m:'ovS'},8:{m:'pl',p:'pos-tl'},9:{m:'pd',p:'pos-r'},10:{m:'ov'},11:{m:'ovS'},
  12:{m:'ov'},13:{m:'ovS'},14:{m:'ov'},15:{m:'ov'},16:{m:'pl',p:'pos-bl',sm:1},
@@ -138,8 +227,7 @@ const CFG={
  21:{m:'pd',p:'pos-tl',sm:1},22:{m:'pl',p:'pos-l'},23:{m:'none'},
  24:{m:'ov'},25:{m:'ov'},26:{m:'ov'}
 };
-
-const SPREADS=[
+const BSPREADS=[
  {t:'title'},
  {t:'pair',L:1,R:2},{t:'pair',L:3,R:4},{t:'pair',L:5,R:6},
  {t:'textL',R:7,rv:'검토: 텍스트면+그림면'},
@@ -150,114 +238,226 @@ const SPREADS=[
  {t:'pair',L:24,R:25},{t:'endR',L:26}
 ];
 
-let IDS={};
-const spreadEls=[];
-let cur=0;
+// ── 웹툰뷰 설정 ──────────────────────────────────────────
+// pos: 'ov'=오버레이, 'ovS'=강한오버레이, 'gap'=이미지 아래 갭, 'none'=무자
+const WCFG={
+ 1:{pos:'ov'},   2:{pos:'gap'},  3:{pos:'ov'},   4:{pos:'ov'},
+ 5:{pos:'ov'},   6:{pos:'ovS'},  7:{pos:'gap'},  8:{pos:'gap'},
+ 9:{pos:'gap'},  10:{pos:'gap'}, 11:{pos:'ov'},  12:{pos:'ov'},
+13:{pos:'gap'},  14:{pos:'ov'},  15:{pos:'ov'},  16:{pos:'gap',center:true},
+17:{pos:'gap'},  18:{pos:'gap'}, 19:{pos:'ov'},  20:{pos:'gap'},
+21:{pos:'gap',center:true}, 22:{pos:'ov'}, 23:{pos:'none'},
+24:{pos:'ov'},   25:{pos:'ov'},  26:{pos:'ov'}
+};
 
-function mkImg(n){
-  const id=IDS[n];
+// ── 이미지 생성 (공통) ───────────────────────────────────
+function mkImgEl(n,cls){
+  const id=FILE_IDS[n];
   if(!id){const d=document.createElement('div');d.className='img-err';d.innerHTML=`<div class="num">${String(n).padStart(2,'0')}</div><div>ID 없음</div>`;return d;}
-  const urls=[
-    `https://drive.google.com/uc?export=view&id=${id}`,
-    `https://drive.google.com/thumbnail?id=${id}&sz=w1600`,
-    `https://lh3.googleusercontent.com/d/${id}`
-  ];
-  let idx=0;
+  const urls=fallbacks(id);let idx=0;
   const img=document.createElement('img');
-  img.className='pg-img';
+  if(cls)img.className=cls;
   img.referrerPolicy='no-referrer';
   img.src=urls[0];
   img.onerror=()=>{if(++idx<urls.length)img.src=urls[idx];};
-  img.alt='장면'+n;
+  img.alt='장면 '+n;
   return img;
 }
 
-function mkTxt(n){
-  const c=CFG[n];
-  if(!c||c.m==='none'||!T[n])return null;
+// ════════════════════════════════
+// 서적뷰 빌드
+// ════════════════════════════════
+let spreadEls=[];let cur=0;
+
+function bkTxt(n){
+  const c=BCFG[n];if(!c||c.m==='none'||!T[n])return null;
   const d=document.createElement('div');
   d.className='txt'+
     (c.m==='ov'?' t-ov':c.m==='ovS'?' t-ovS':c.m==='pl'?' t-pl pos-'+c.p:' t-pd pos-'+c.p)+
     (c.sm?' sm':'');
-  const p=document.createElement('p');p.innerHTML=T[n];d.appendChild(p);
-  return d;
+  const p=document.createElement('p');p.innerHTML=T[n];d.appendChild(p);return d;
 }
-
-function mkScene(n){
+function bkScene(n){
   const d=document.createElement('div');d.className='pg-fill';
-  d.appendChild(mkImg(n));
-  const t=mkTxt(n);if(t)d.appendChild(t);
-  return d;
+  d.appendChild(mkImgEl(n,'pg-img'));
+  const t=bkTxt(n);if(t)d.appendChild(t);return d;
 }
+function half(){const d=document.createElement('div');d.style.cssText='position:relative;flex:1;overflow:hidden';return d;}
+function spine(){const d=document.createElement('div');d.style.cssText='position:absolute;top:0;bottom:0;left:50%;width:44px;transform:translateX(-50%);background:linear-gradient(to right,transparent,rgba(0,0,0,.25) 46%,rgba(0,0,0,.35) 50%,rgba(0,0,0,.25) 54%,transparent);pointer-events:none;z-index:5';return d;}
 
-function sp(el,...cs){cs.forEach(c=>el.classList.add(c));return el;}
-
-function build(){
-  const wrap=document.getElementById('swrap');
-  const spine=()=>{const d=document.createElement('div');d.style.cssText='position:absolute;top:0;bottom:0;left:50%;width:44px;transform:translateX(-50%);background:linear-gradient(to right,transparent,rgba(0,0,0,.28) 46%,rgba(0,0,0,.38) 50%,rgba(0,0,0,.28) 54%,transparent);pointer-events:none;z-index:5';return d;};
-  const half=()=>{const d=document.createElement('div');d.style.cssText='position:relative;flex:1;overflow:hidden';return d;};
-
-  SPREADS.forEach(s=>{
+function buildBook(){
+  const wrap=document.getElementById('book-view');
+  BSPREADS.forEach(s=>{
     const w=document.createElement('div');w.className='spread';
     if(s.rv){const r=document.createElement('div');r.className='review';r.textContent=s.rv;w.appendChild(r);}
-
     if(s.t==='title'){
-      w.style.background='#0b0f1a';
       const L=half(),R=half();
       L.style.background='#0b0f1a';
       const tp=document.createElement('div');tp.className='titlepage';
-      tp.innerHTML='<div class="star">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
+      // 토글 버튼은 타이틀 면에 absolute로
+      const btn=document.createElement('button');btn.id='toggle-btn';btn.textContent='웹툰으로 보기';btn.onclick=toggleView;
+      tp.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
+      tp.appendChild(btn);
       R.appendChild(tp);w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }else if(s.t==='pair'){
       const L=half(),R=half();
-      L.appendChild(mkScene(s.L));R.appendChild(mkScene(s.R));
+      L.appendChild(bkScene(s.L));R.appendChild(bkScene(s.R));
       w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }else if(s.t==='textL'){
       const L=half(),R=half();
       const tp=document.createElement('div');tp.className='textpage';
       const p=document.createElement('p');p.innerHTML=T[s.R];tp.appendChild(p);
-      L.appendChild(tp);R.appendChild(mkImg(s.R));
+      L.appendChild(tp);R.appendChild(mkImgEl(s.R,'pg-img'));
       w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }else if(s.t==='dark16'){
       const L=half(),R=half();
       const tp=document.createElement('div');tp.className='textpage dark';
       const p=document.createElement('p');p.innerHTML=T[16];p.style.textAlign='center';tp.appendChild(p);
-      L.appendChild(tp);R.appendChild(mkImg(16));
+      L.appendChild(tp);R.appendChild(mkImgEl(16,'pg-img'));
       w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }else if(s.t==='full23'){
       w.classList.add('fullbleed');w.style.display='block';
       const pg=document.createElement('div');pg.style.cssText='position:absolute;inset:0';
-      pg.appendChild(mkImg(23));w.appendChild(pg);
+      pg.appendChild(mkImgEl(23,'pg-img'));w.appendChild(pg);
     }else if(s.t==='endR'){
       const L=half(),R=half();
-      L.appendChild(mkScene(s.L));
+      L.appendChild(bkScene(s.L));
       const ep=document.createElement('div');ep.className='endpage';
       ep.innerHTML='<p>✦<br><br>끝</p><div class="credit">나눔명조 © 네이버</div>';
       R.appendChild(ep);w.appendChild(L);w.appendChild(R);w.appendChild(spine());
     }
-
     wrap.appendChild(w);
     spreadEls.push(w);
   });
-
   const io=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.4){const i=spreadEls.indexOf(e.target);if(i>=0&&i!==cur){cur=i;upd();}}});},{threshold:0.4});
   spreadEls.forEach(el=>io.observe(el));
   fitFont();upd();
 }
 
 function upd(){
-  document.getElementById('ind').textContent=(cur+1)+'\n/\n'+SPREADS.length;
+  document.getElementById('ind').textContent=(cur+1)+'\n/\n'+BSPREADS.length;
   document.getElementById('prev').disabled=cur===0;
-  document.getElementById('next').disabled=cur===SPREADS.length-1;
+  document.getElementById('next').disabled=cur===BSPREADS.length-1;
 }
 function go(d){const n=cur+d;if(n<0||n>=spreadEls.length)return;cur=n;spreadEls[n].scrollIntoView({behavior:'smooth',block:'center'});upd();}
-function fitFont(){const el=spreadEls[0];if(!el)return;const fs=Math.max(9,Math.min(16,el.clientWidth*0.0155));document.documentElement.style.setProperty('--fs',fs+'px');}
-window.addEventListener('resize',fitFont);
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ')go(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);});
 
+// ════════════════════════════════
+// 웹툰뷰 빌드
+// ════════════════════════════════
+function buildWebtoon(){
+  const wrap=document.getElementById('webtoon-view');
+
+  // 타이틀 블록
+  const titleBlock=document.createElement('div');titleBlock.className='wt-scene';
+  const titleEl=document.createElement('div');titleEl.className='wt-title';
+  const btn=document.createElement('button');btn.id='toggle-btn-wt';btn.className='';
+  btn.style.cssText='position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);font-family:sans-serif;font-size:11px;letter-spacing:.1em;padding:6px 14px;border-radius:20px;cursor:pointer;';
+  btn.textContent='서적으로 보기';btn.onclick=toggleView;
+  titleEl.innerHTML='<div class="star-deco">✦</div><h1>이야기가 마르던 밤</h1><div class="sub">NURI · PICTURE BOOK</div>';
+  titleEl.appendChild(btn);
+  titleBlock.appendChild(titleEl);
+  wrap.appendChild(titleBlock);
+
+  // 장면 1~26
+  for(let n=1;n<=26;n++){
+    const cfg=WCFG[n];
+    const scene=document.createElement('div');scene.className='wt-scene';
+
+    // 이미지 블록
+    const imgWrap=document.createElement('div');imgWrap.className='wt-img';
+    const img=mkImgEl(n);img.style.cssText='width:100%;display:block;aspect-ratio:3/4;object-fit:cover';
+    imgWrap.appendChild(img);
+
+    // 오버레이 텍스트
+    if((cfg.pos==='ov'||cfg.pos==='ovS')&&T[n]){
+      const ov=document.createElement('div');
+      ov.className=cfg.pos==='ovS'?'wt-ovS':'wt-ov';
+      const p=document.createElement('p');p.innerHTML=T[n];ov.appendChild(p);
+      imgWrap.appendChild(ov);
+    }
+    scene.appendChild(imgWrap);
+
+    // 갭 텍스트
+    if(cfg.pos==='gap'&&T[n]){
+      const gap=document.createElement('div');
+      gap.className='wt-gap'+(cfg.center?' center':'');
+      const p=document.createElement('p');p.innerHTML=T[n];gap.appendChild(p);
+      scene.appendChild(gap);
+    }
+
+    // 구분선 (무자·갭 있는 장면 뒤)
+    if(n<26&&cfg.pos!=='none'){
+      const rule=document.createElement('div');rule.className='wt-rule';
+      scene.appendChild(rule);
+    }
+
+    wrap.appendChild(scene);
+  }
+
+  // 엔딩
+  const end=document.createElement('div');end.className='wt-gap center';
+  end.style.padding='8vh 10%';
+  end.innerHTML='<p style="color:#5a4e3e;letter-spacing:.3em;font-size:clamp(14px,3.5vw,18px)">✦<br><br>끝</p>';
+  wrap.appendChild(end);
+}
+
+// ════════════════════════════════
+// 뷰 전환
+// ════════════════════════════════
+let mode='book';
+function toggleView(){
+  mode=mode==='book'?'webtoon':'book';
+  const bv=document.getElementById('book-view');
+  const wv=document.getElementById('webtoon-view');
+  const nav=document.getElementById('nav');
+  if(mode==='webtoon'){
+    bv.classList.add('hidden');
+    wv.classList.add('active');
+    nav.classList.add('hidden');
+    window.scrollTo({top:0});
+  }else{
+    bv.classList.remove('hidden');
+    wv.classList.remove('active');
+    nav.classList.remove('hidden');
+    window.scrollTo({top:0});
+    cur=0;upd();
+  }
+}
+
+// ════════════════════════════════
+// 공통
+// ════════════════════════════════
+function fitFont(){
+  const el=spreadEls[0]||document.querySelector('.spread');
+  if(!el)return;
+  const fs=Math.max(9,Math.min(16,el.clientWidth*0.0155));
+  document.documentElement.style.setProperty('--fs',fs+'px');
+}
+window.addEventListener('resize',fitFont);
+document.addEventListener('keydown',e=>{
+  if(mode!=='book')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+
+// ── 초기화 ──────────────────────────────────────────────
 (async()=>{
-  IDS=await loadIDs();
-  build();
+  try{
+    const SHEET_ID='1hvJdwb7n4Wkx9DlUNG3pygzKEbmzfkiXNuoIBadBaeE';
+    const r=await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`,{credentials:'omit'});
+    if(r.ok){
+      const rows=(await r.text()).trim().split('\n').slice(1);
+      let upd=0;
+      rows.forEach(row=>{
+        const c=row.split(',');
+        const n=parseInt(c[0]);const id=(c[2]||'').replace(/"/g,'').trim();
+        if(n>=1&&n<=26&&id){FILE_IDS[n]=id;upd++;}
+      });
+      if(upd>0)document.getElementById('status').textContent=`시트 ID ${upd}개 반영`;
+    }
+  }catch(e){}
+  buildBook();
+  buildWebtoon();
   document.getElementById('loading').classList.add('done');
 })();
 </script>
