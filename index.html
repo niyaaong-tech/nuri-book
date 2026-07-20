@@ -111,22 +111,32 @@ body{background:#1a1816;font-family:'Nanum Myeongjo',serif;overflow-x:hidden}
   background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.22) 32%,rgba(3,5,10,.50) 64%,rgba(3,5,10,.62) 100%);
   color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.8);
 }
-.wt-img .wt-ov p{line-height:2.05;font-size:clamp(11px,3.2vw,16px)}
+.wt-img .wt-ov p{line-height:2.05;font-size:clamp(13px,3.84vw,19px);word-break:keep-all}
 .wt-img .wt-ovS{
   position:absolute;left:0;right:0;bottom:0;padding:12% 9% 7%;
   background:linear-gradient(to bottom,transparent 0%,rgba(4,6,13,.28) 28%,rgba(4,6,13,.55) 58%,rgba(4,6,13,.70) 100%);
   color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.9);
 }
-.wt-img .wt-ovS p{line-height:2.05;font-size:clamp(11px,3.2vw,16px)}
+.wt-img .wt-ovS p{line-height:2.05;font-size:clamp(13px,3.84vw,19px);word-break:keep-all}
+/* 이미지 상단 부착 텍스트 */
+.wt-img .wt-top{
+  position:absolute;left:0;right:0;top:0;padding:6% 9% 13%;
+  background:linear-gradient(to bottom,rgba(3,5,10,.58) 0%,rgba(3,5,10,.34) 55%,transparent 100%);
+  color:#f2ece0;text-shadow:0 1px 6px rgba(0,0,0,.8);
+}
+.wt-img .wt-top p{line-height:2.05;font-size:clamp(13px,3.84vw,19px);word-break:keep-all}
+.wt-img .wt-ov.narrow,.wt-img .wt-ovS.narrow,.wt-img .wt-top.narrow{padding-left:5%;padding-right:5%}
 
 /* 웹툰 갭 텍스트 */
 .wt-gap{
   width:100%;background:#1a1816;
-  padding:5vh 10% 5vh;
+  padding:12vh 10%;
   display:flex;align-items:center;justify-content:flex-start;
 }
 .wt-gap.center{justify-content:center;text-align:center}
-.wt-gap p{color:#ddd7c8;line-height:2.1;font-size:clamp(12px,3.4vw,16px);letter-spacing:.03em}
+.wt-gap.right{justify-content:flex-end;text-align:right}
+.wt-gap.narrow{padding-left:5.5%;padding-right:5.5%}
+.wt-gap p{color:#ddd7c8;line-height:2.2;font-size:clamp(14px,4.1vw,19px);letter-spacing:.03em;word-break:keep-all}
 
 /* 웹툰 장면간 여백 스페이서 (이미지 높이의 20%) */
 .wt-rule{width:100%;max-width:var(--img-max);height:min(26.67vw,213px);background:transparent;margin:0 auto}
@@ -246,15 +256,63 @@ const BSPREADS=[
 ];
 
 // ── 웹툰뷰 설정 ──────────────────────────────────────────
-// pos: 'ov'=오버레이, 'ovS'=강한오버레이, 'gap'=이미지 아래 갭, 'none'=무자
-const WCFG={
- 1:{pos:'ov'},   2:{pos:'gap'},  3:{pos:'ov'},   4:{pos:'ov'},
- 5:{pos:'ov'},   6:{pos:'ovS'},  7:{pos:'gap'},  8:{pos:'gap'},
- 9:{pos:'gap'},  10:{pos:'gap'}, 11:{pos:'ov'},  12:{pos:'ov'},
-13:{pos:'gap'},  14:{pos:'ov'},  15:{pos:'ov'},  16:{pos:'gap',center:true},
-17:{pos:'gap'},  18:{pos:'gap'}, 19:{pos:'ov'},  20:{pos:'gap'},
-21:{pos:'gap',center:true}, 22:{pos:'ov'}, 23:{pos:'none'},
-24:{pos:'ov'},   25:{pos:'ov'},  26:{pos:'ov'}
+// top: 이미지 상단 부착 / bot: 이미지 하단 오버레이 (S=강한 그라데이션) / gap: 이미지 아래 간격
+// gap.a: 정렬(center/right) / nw: 좌우 여백 축소(긴 줄 한 줄 유지)
+const WSEG={
+ 1:{bot:"옛날, 아주 먼 옛날.<br>하늘의 별들이 지금보다 훨씬 낮게 떠 있던 시절이 있었습니다.",
+    gap:{h:"손을 뻗으면 닿을 것처럼.<br>지붕 위에 앉으면 별의 숨소리가 들릴 것처럼.<br><br>그 시절, 세상의 이름은 누리였습니다."}},
+ 2:{gap:{h:"누리의 별들은 조금 특별했습니다.<br><br>빛나는 일 말고, 좋아하는 일이 하나 더 있었거든요."}},
+ 3:{top:"이야기를 듣는 일이었습니다.",
+    bot:"그래서 밤이 되면, 사람들은 언덕에 올랐습니다.",
+    gap:{h:"용감한 기사의 이야기.<br>바다를 건너는 배의 이야기.<br>숲에서 길을 잃은 아이가 반딧불이를 따라 집으로 돌아오는 이야기.<br><br>낮 동안 품은 이야기를, 별에게 들려주는 것입니다.",nw:1}},
+ 4:{bot:"그러면 별은 그 이야기를 가만히 듣고,<br>별빛 속에 고이 품었다가,<br>이윽고 형체를 주었습니다.",
+    gap:{h:"이야기가, 눈에 보이는 모습이 되어 내려오는 것이었습니다.",a:'center',nw:1}},
+ 5:{bot:"기사의 이야기를 들려준 밤에는<br>갑옷이 별빛으로 반짝이는 기사가 태어났습니다.<br><br>배의 이야기를 들려준 밤에는<br>돛에 별자리가 수놓인 배가.",
+    gap:{h:"반딧불이 이야기를 들려준 밤에는 —<br>반딧불이를 닮은 작고 환한 것이 태어나,<br>길 잃은 아이들의 어깨에 앉아 주었다고 합니다."}},
+ 6:{botS:"그렇게 태어난 존재들이<br>들판에서, 바다에서, 골목에서 살았습니다.",
+    gap:{h:"누리는 이야기로 지어진 세상이었고,<br>이야기로 태어난 이웃들로 가득했습니다.",a:'center'}},
+ 7:{bot:"옛사람들은 아이들에게 말했습니다.",
+    gap:{h:"&#8220;별은 약속하지 않는단다.<br>어떤 이야기가 어떤 존재가 될지는 별만이 알지.<br><br>하지만 별은 거짓말도 하지 않아.<br>정성껏 들려준 이야기를 허투루 듣는 법은 없단다.&#8221;",a:'center',nw:1}},
+ 8:{top:"그런데 어느 해부터였을까요.",
+    gap:{h:"언덕에 오르는 발걸음이 하나, 둘, 줄었습니다.<br><br>아무도 모르게, 이야기는 서서히 말라갔습니다."}},
+ 9:{bot:"이야기를 듣지 못한 별들은 배가 고파졌습니다.",
+    gap:{h:"배고픈 별은 빛이 흐려집니다.<br>흐려진 별빛 아래에서,<br>세상의 것들이 지워지기 시작했습니다.",a:'right',nw:1}},
+10:{bot:"처음 지워진 것은 아주 작은 것들이었습니다.",
+    gap:{h:"우물가 세 번째 돌의 이름.<br>빵집 골목의 오래된 노래.<br>어떤 모험 이야기의 마지막 문장.<br><br><br>너무 작아서, 사라진 줄도 몰랐습니다."}},
+11:{bot:"지워짐은 멈추지 않았습니다.",
+    gap:{h:"이름을 잃은 들판은 자기가 들판이었다는 것을 잊었습니다.<br>노래를 잊은 바다는 파도치는 법을 자꾸 틀렸습니다.<br><br>이야기로 태어난 이웃들도, 하나둘 옅어져 갔습니다.",nw:1}},
+12:{botS:"별빛 기사는 마지막까지 마을 어귀를 지켰습니다.<br><br>&#8220;내 이야기를 기억해 주는 이가 한 사람이라도 있는 한,<br>나는 사라지지 않아.&#8221;",
+    gap:{h:"그렇게 말했지만 —<br>기억하는 이들의 창문도, 하나둘 어두워지고 있었습니다.",nw:1}},
+13:{bot:"어느 저녁, 아이 하나가 물었습니다.<br><br>&#8220;할머니, 별한테 이야기를 들려주면<br>친구가 태어난다는 게 정말이에요?&#8221;",
+    gap:{h:"할머니는 오래 말이 없다가, 창밖을 보았습니다.<br><br>&#8220;&#8230;글쎄다. 옛날에는 그랬다는데.&#8221;",nw:1}},
+14:{top:"그리고 마침내 —",
+    bot:"굶주림에 지친 별들이, 잠들기 시작했습니다.<br><br>동쪽 하늘의 큰 별이 제일 먼저 눈을 감았습니다.",
+    gap:{h:"별 하나가, 잠들었습니다.",a:'center'}},
+15:{bot:"서쪽 하늘의 등불별이 눈을 감았습니다.<br><br>별 둘이, 잠들었습니다.",
+    gap:{h:"남쪽 바다의 뱃길별이<br>마지막 배 한 척을 배웅하고 눈을 감았습니다.<br><br><br>별 셋이, 잠들었습니다.",a:'center',nw:1}},
+16:{top:"하나, 또 하나.<br>밤마다 하늘은 조용히 어두워졌습니다.",
+    gap:{h:"이제 남은 별은 하나.<br><br>하늘 끝, 가장 높은 곳의<br>가장 작은 별이었습니다.",a:'center'}},
+17:{bot:"작은 별은 잠들지 않았습니다.<br><br>배가 고파 온몸이 흐려져도, 눈꺼풀이 천 근이어도.",
+    gap:{h:"&#8220;내가 잠들면, 이야기를 들을 별이 없잖아.<br>그러면 정말로, 아무도 태어날 수 없게 되잖아.&#8221;",a:'center',nw:1}},
+18:{bot:"작은 별은 기다렸습니다.<br><br>바람이 얼어붙는 밤에도.<br>지워짐의 안개가 언덕 밑까지 차오르는 밤에도.",
+    gap:{h:"&#8220;누군가, 아직 이야기를 가진 이가 있다면.<br>부디, 이 빛이 꺼지기 전에.&#8221;",a:'center',nw:1}},
+19:{top:"별빛이 마지막으로 깜빡이던 밤이었습니다.",
+    bot:"하늘 저편에서, 다가오는 무언가가 보였습니다.<br>별똥별이라기엔 너무 천천히. 하지만 똑바로.<br><br>신비하게 반짝이며 다가온 그 사람은,<br>가슴께가 오래된 화로처럼 은은하게 빛나고 있었습니다.",
+    gap:{h:"이야기였습니다.",a:'center'}},
+20:{bot:"&#8220;당신은&#8230; 누구인가요?&#8221;",
+    gap:{h:"&#8220;저는, 이야기가 아주 많은 곳에서 왔습니다.<br>그곳에는 이야기가 넘쳐서,<br>미처 태어나지 못한 이야기들이<br>사람들 가슴속에 가득 쌓여 있어요.<br><br>저도 그중 하나를 품고 왔습니다.&#8221;",nw:1}},
+21:{bot:"작은 별의 흐린 빛이 아주 조금, 떨렸습니다.",
+    gap:{h:"&#8220;&#8230;들려주시겠어요?&#8221;",a:'center'}},
+22:{bot:"사람은 잠시 눈을 감았습니다.<br><br>그리고, 이야기를 시작했습니다.",
+    gap:{h:"작은 별은 그 이야기를 들었습니다.<br>한 마디, 한 마디. 그리고 —"}},
+23:{},
+24:{top:"별이, 타올랐습니다.",
+    bot:"꺼져가던 작은 별이,<br>누리의 밤하늘 전체를 밝힐 만큼 크게.",
+    gap:{h:"그 빛 속에서, 아주 오랜만에 —<br>무언가 태어나기 시작했습니다.<br><br>빛이 실이 되고, 실이 형체가 되고,<br>형체가 숨을 쉬기 시작했습니다."}},
+25:{bot:"사람과, 갓 태어난 작은 존재는<br>언덕 위에서 오래 마주 보았습니다.<br><br>처음 만났는데도,<br>아주 오래 알고 지낸 것 같았습니다.",
+    gap:{h:"당연한 일이지요.<br><br>그 아이는, 그 사람이<br>가장 오래 품어 온 이야기였으니까요.",a:'center'}},
+26:{bot:"그날 밤부터, 잠들었던 별들이<br>하나둘 눈을 떴습니다.<br><br>언덕에는 다시 발걸음이 늘고,<br>밤마다 반짝이는 실이 하늘로 올랐습니다.",
+    gap:{h:"그리고 별들은 다시, 조금씩 낮아졌습니다.<br><br><br>손을 뻗으면 닿을 것처럼.<br>지붕 위에 앉으면,<br>숨소리가 들릴 것처럼.",a:'center'}}
 };
 
 // ── 이미지 생성 (공통) ───────────────────────────────────
@@ -373,7 +431,7 @@ function buildWebtoon(){
 
   // 장면 1~26
   for(let n=1;n<=26;n++){
-    const cfg=WCFG[n];
+    const sg=WSEG[n]||{};
     const scene=document.createElement('div');scene.className='wt-scene';
 
     // 이미지 블록
@@ -381,25 +439,29 @@ function buildWebtoon(){
     const img=mkImgEl(n);img.style.cssText='width:100%;display:block;aspect-ratio:3/4;object-fit:cover';
     imgWrap.appendChild(img);
 
-    // 오버레이 텍스트
-    if((cfg.pos==='ov'||cfg.pos==='ovS')&&T[n]){
+    // 상단 부착 텍스트
+    if(sg.top){
+      const tp=document.createElement('div');tp.className='wt-top';
+      const p=document.createElement('p');p.innerHTML=sg.top;tp.appendChild(p);
+      imgWrap.appendChild(tp);
+    }
+    // 하단 오버레이 텍스트
+    if(sg.bot||sg.botS){
       const ov=document.createElement('div');
-      ov.className=cfg.pos==='ovS'?'wt-ovS':'wt-ov';
-      const p=document.createElement('p');p.innerHTML=T[n];ov.appendChild(p);
+      ov.className=sg.botS?'wt-ovS':'wt-ov';
+      const p=document.createElement('p');p.innerHTML=sg.botS||sg.bot;ov.appendChild(p);
       imgWrap.appendChild(ov);
     }
     scene.appendChild(imgWrap);
 
-    // 갭 텍스트
-    if(cfg.pos==='gap'&&T[n]){
+    // 간격 텍스트 (간격 자체가 확장 여백 역할)
+    if(sg.gap){
       const gap=document.createElement('div');
-      gap.className='wt-gap'+(cfg.center?' center':'');
-      const p=document.createElement('p');p.innerHTML=T[n];gap.appendChild(p);
+      gap.className='wt-gap'+(sg.gap.a?' '+sg.gap.a:'')+(sg.gap.nw?' narrow':'');
+      const p=document.createElement('p');p.innerHTML=sg.gap.h;gap.appendChild(p);
       scene.appendChild(gap);
-    }
-
-    // 구분선 (무자·갭 있는 장면 뒤)
-    if(n<26){
+    }else if(n<26){
+      // 간격 텍스트 없는 장면만 스페이서
       const rule=document.createElement('div');rule.className='wt-rule';
       scene.appendChild(rule);
     }
