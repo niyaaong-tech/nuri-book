@@ -1,8 +1,9 @@
 'use strict';
 const SHEET_ID='1ONYniMrn8tu64VwgzwODQetiY-IspZpVjRadMyE2Ocs';
 const SHEET_NAME='img_link';
+const STORY_SOURCE='Notion 「이야기가 마르던 밤」 최종3고 v1.00';
 const FALLBACK_IDS={
-  "0": "1iEx4V-QjfAmxN8T2wLpdznmAtf3RuQdL",
+  "0": "1YQz_6NNcSo0A-G1lNZMUilek7rD147Je",
   "1": "1-Y6gCytblA6tv6s9ycmWqXW0b5yYDCzw",
   "2": "1fJK0R88kiVodskCpfO442BvvD8tV4F5t",
   "3": "1VXKZAwLo1Vk1BUwNH3f24hSO7bQpn-2a",
@@ -11,10 +12,10 @@ const FALLBACK_IDS={
   "6": "1tvqsohrWuiavUNZBsKRbNMm618n3cWUh",
   "7": "15cyd21gQ2ZpEYE6t3t34E7Zcy9IvT0qq",
   "8": "1DgDKoHvVhNbaAxykUFvEuROztvfY71qp",
-  "9": "1SvqcnZA0wpGUr3ksLka-MMT0dBd_qxmT",
+  "9": "1JoORGvyy4RNVBasr1RrqmmNSmridsbPo",
   "10": "1W0vQ-oBmhMQsThtKUU7bxlqxsYXyjepT",
   "11": "1KnhzyUzBfbJ6ANIur350eRj7OrTc-Tb2",
-  "12": "190jSzDXQgaG92VTn5ED9AR-FbcYXqQ-O",
+  "12": "1iIFM8osw39HFWluwzb2AF4uDRM-Nwmc9",
   "13": "1KZealAYVKBJyiZdDWAl2azlVki3Khu7o",
   "14": "1jBzPsFuYVd3jKwbFRXydbXLpEyUlBjAt",
   "15": "1KxQTtiywBa1DxTSatH_VZxSR7DgVybOb",
@@ -29,8 +30,8 @@ const FALLBACK_IDS={
   "24": "1ERwHfPpoLnOd4_rHyNH9-XlIhgobUm-2",
   "25": "1iMexAMYFH_DoKHbI4ouVADNqu2KmJTy1",
   "26": "1LVuuFaDcIh-vXH5j_TZ1SRnl3CWtGoq5",
-  "27": "1iIFM8osw39HFWluwzb2AF4uDRM-Nwmc9",
-  "28": "1b_Tg5QRl59BbuZNWuA4dAzxyJ2px7n2R"
+  "27": "1b_Tg5QRl59BbuZNWuA4dAzxyJ2px7n2R",
+  "28": "1B9gmzl1ogl8VXNo07CyR14_ErRILXdsl"
 };
 const SCENES={
   "1": "옛날, 아주 먼 옛날.\n\n하늘의 별들이\n지금보다 훨씬 낮게 떠 있던 시절이 있었습니다.\n\n손을 뻗으면 닿을 것처럼.\n지붕 위에 앉으면 별의 숨소리가 들릴 것처럼.\n\n그 시절, 세상의 이름은 누리였습니다.",
