@@ -12,18 +12,21 @@ button{font:inherit}
 #status{position:fixed;left:14px;bottom:10px;z-index:120;max-width:calc(100vw - 100px);font-family:system-ui,sans-serif;font-size:10px;letter-spacing:.05em;color:rgba(255,255,255,.28)}
 .view-toggle{position:absolute;top:16px;right:16px;z-index:20;padding:7px 14px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(10,12,18,.32);backdrop-filter:blur(8px);color:rgba(255,255,255,.78);font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.08em;cursor:pointer;transition:.18s}
 .view-toggle:hover{background:rgba(255,255,255,.17);color:#fff}
-.cover-title{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center}
+.cover-title{position:absolute;z-index:3;left:0;right:0;bottom:8%;width:100%;max-width:100%;padding-inline:5%;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;overflow:hidden}
 .cover-title .star{color:var(--gold);font-size:24px}
-.cover-title h1{font-size:clamp(20px,4.6vw,36px);letter-spacing:.24em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
-.cover-title small{font-family:system-ui,sans-serif;font-size:clamp(8px,1.8vw,12px);letter-spacing:.24em;color:#9ba4b4}
+.cover-title h1{max-width:100%;font-size:clamp(20px,4.6vw,36px);letter-spacing:.18em;text-shadow:0 2px 12px rgba(0,0,0,.8);white-space:nowrap}
+.cover-title small{max-width:100%;font-family:system-ui,sans-serif;font-size:clamp(8px,1.8vw,12px);letter-spacing:.16em;color:#9ba4b4;white-space:nowrap}
+.book-cover .cover-title{padding-inline:4%}
+.book-cover .cover-title h1{font-size:clamp(10px,2.35vw,27px);letter-spacing:.12em}
+.book-cover .cover-title small{font-size:clamp(5px,.95vw,10px);letter-spacing:.08em}
 .cover-grad{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 28%,rgba(3,5,10,.42) 58%,rgba(3,5,10,.92) 100%);pointer-events:none}
 .drive-img{display:block;width:100%;height:100%;object-fit:cover;background:#0d1018}
 .img-error{display:flex;width:100%;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:7px;background:#0d111b;color:#33405b;font-family:system-ui,sans-serif;font-size:11px}
 .img-error strong{font-size:28px;color:#27334c}
 
 /* 짧은 마지막 줄 방지: 브라우저 기본 균형 조정 + JS 좌우 여백 축소 */
-.book-caption,.wt-overlay,.wt-gap,.wt-top-caption,.wt-cut-caption{text-wrap:pretty}
-.book-caption p,.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p{word-break:keep-all;overflow-wrap:normal}
+.book-caption,.wt-overlay,.wt-gap,.wt-top-caption,.wt-cut-caption,.wt-panel-caption{text-wrap:pretty}
+.book-caption p,.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{word-break:keep-all;overflow-wrap:normal}
 
 /* 동화책뷰 */
 #book-view{display:none;flex-direction:column;align-items:center;gap:clamp(100px,48vh,440px);padding:6vh 0 28vh}
@@ -32,7 +35,7 @@ button{font:inherit}
 .spread::after{content:'';position:absolute;z-index:10;top:0;bottom:0;left:50%;width:44px;transform:translateX(-50%);background:linear-gradient(to right,transparent,rgba(0,0,0,.22) 44%,rgba(0,0,0,.42) 50%,rgba(0,0,0,.22) 56%,transparent);pointer-events:none}
 .book-page{position:relative;width:50%;height:100%;overflow:hidden;background:#0a0d15}
 .book-page.blank{background:#0b0e15}
-.book-cover{display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%}
+.book-cover{position:relative;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%}
 .book-caption{--pad-x:8%;position:absolute;z-index:5;left:0;right:0;bottom:0;max-height:68%;overflow:hidden;padding:16% var(--pad-x) 6%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.38) 32%,rgba(3,5,10,.76) 68%,rgba(3,5,10,.88) 100%);color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.9);font-size:var(--book-fs);line-height:1.86;white-space:pre-line;word-break:keep-all}
 .end-page{display:flex;align-items:center;justify-content:center;background:var(--paper);color:#685e50;text-align:center;font-size:clamp(13px,1.5vw,20px);line-height:2.4;letter-spacing:.28em}
 
@@ -40,13 +43,14 @@ button{font:inherit}
 #webtoon-view{display:none;flex-direction:column;align-items:center;padding-bottom:14vh}
 #webtoon-view.active{display:flex}
 .wt-page{position:relative;width:100%;max-width:var(--max-w);scroll-margin-top:0}
-.wt-cover{aspect-ratio:3/4;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%;overflow:hidden}
+.wt-cover{position:relative;aspect-ratio:3/4;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%;overflow:hidden}
 .wt-image{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#0c1018}
 .wt-overlay{--pad-x:9%;position:absolute;z-index:4;left:0;right:0;bottom:0;padding:17% var(--pad-x) 7%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.28) 35%,rgba(3,5,10,.67) 72%,rgba(3,5,10,.78) 100%);text-shadow:0 1px 7px rgba(0,0,0,.88)}
-.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p{font-size:clamp(14px,3.8vw,19px);line-height:2.08;white-space:pre-line}
+.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{font-size:clamp(14px,3.8vw,19px);line-height:2.08;white-space:pre-line}
 .wt-gap{--pad-x:9%;width:100%;min-height:22vh;display:flex;align-items:center;padding:9vh var(--pad-x);background:var(--night);color:#ded8ca}
 .wt-gap.center{justify-content:center;text-align:center}
 .wt-gap.right{justify-content:flex-end;text-align:right}
+.wt-gap-before{min-height:18vh;align-items:flex-end;padding-top:5vh;padding-bottom:5vh}
 .wt-spacer{height:min(26.67vw,213px);background:var(--night)}
 .wt-end{display:flex;align-items:center;justify-content:center;min-height:38vh;color:#64594a;text-align:center;line-height:2.6;letter-spacing:.28em}
 
@@ -57,10 +61,17 @@ button{font:inherit}
 .wt-cut-caption{--pad-x:6%;position:absolute;z-index:6;left:0;right:0;top:var(--cut-y);transform:translateY(-100%);padding:5% var(--pad-x) 2.2%;text-align:right;color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.94);background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.28) 52%,rgba(3,5,10,.52) 100%)}
 .wt-cut-caption.dark{color:#51483c;text-shadow:none;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.16) 58%,rgba(255,255,255,.36) 100%)}
 .wt-cut-caption p{white-space:nowrap}
+.wt-panel-caption{--pad-x:8%;position:absolute;z-index:6;left:0;right:0;padding:8% var(--pad-x) 3%;color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.94);background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.32) 54%,rgba(3,5,10,.62) 100%)}
+.wt-panel-caption.upper{top:50%;transform:translateY(-100%)}
+.wt-panel-caption.lower{bottom:0}
 .scene-10 .cut-1{--cut-y:33.3%}
 .scene-10 .cut-2{--cut-y:66.6%}
 .scene-10 .cut-3{--cut-y:100%}
-.scene-11 .wt-overlay,.scene-12 .wt-overlay{padding-top:19%}
+.scene-11 .wt-overlay,.scene-12 .wt-overlay,.scene-13 .wt-overlay{padding-top:19%}
+.scene-14 .wt-top-caption,.scene-15 .wt-top-caption{padding-bottom:13%}
+.scene-14 .wt-overlay{padding-top:19%}
+.scene-15 .wt-overlay{padding-top:14%}
+.scene-16 .wt-panel-caption p{line-height:1.95}
 
 /* 우측 하단 고정 페이지 이동 */
 #nav{position:fixed;z-index:500;right:max(12px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:7px;opacity:.9}
@@ -79,5 +90,8 @@ button{font:inherit}
   .view-toggle{top:10px;right:10px;padding:6px 11px;font-size:10px}
   .wt-top-caption{--pad-x:4.5%}
   .wt-cut-caption{--pad-x:4.5%}
+  .wt-panel-caption{--pad-x:5%}
+  .book-cover .cover-title h1{font-size:clamp(9px,2.55vw,14px)}
+  .book-cover .cover-title small{font-size:5px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
