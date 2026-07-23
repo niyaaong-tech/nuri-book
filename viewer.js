@@ -105,6 +105,7 @@ function makeTextBlock(className,text,fit=true){
 const WEBTOON_LAYOUTS={
   10:{
     top:'처음 사라진 것은 아주 작은 것들이었습니다.',
+    topClass:'right one-line',
     cuts:[
       {text:'우물가 세 번째 돌의 이름.',className:'cut-1'},
       {text:'방앗간 골목의 오래된 노래.',className:'cut-2 dark'},
@@ -114,12 +115,35 @@ const WEBTOON_LAYOUTS={
   },
   11:{
     top:'변화는 멈추지 않고 누리 곳곳으로 퍼져나갔습니다.',
-    bottom:'그리고 마침내, 사람들의 마음속까지 스며들었습니다.\n\n사람들은 차츰, 이야기를 잊어버리게 되었습니다.',
+    topClass:'one-line',
+    bottom:'그리고 마침내, 사람들의 마음속까지 스며들었습니다.\n사람들은 차츰, 이야기를 잊어버리게 되었습니다.',
     gap:'어떤 이야기를 품고 있었는지.\n누구에게 들려주려 했는지.\n그런 것들이, 떠오르지 않게 되었습니다.'
   },
   12:{
-    bottom:'지워짐은 멈추지 않았습니다.\n\n이름을 잃은 들판은\n자기가 들판이었다는 것을 잊었습니다.\n\n노래를 잊은 바다는\n파도치는 법을 자꾸 틀렸습니다.',
+    bottom:'지워짐은 멈추지 않았습니다.\n이름을 잃은 들판은\n자기가 들판이었다는 것을 잊었습니다.\n노래를 잊은 바다는\n파도치는 법을 자꾸 틀렸습니다.',
     gap:'이야기로 태어난 이웃들도,\n하나둘 옅어져 갔습니다.'
+  },
+  13:{
+    bottom:'별빛 기사는 마지막까지 마을 어귀를 지켰습니다.\n"내 이야기를 기억해 주는 이가 한 사람이라도 있는 한,\n나는 사라지지 않아."',
+    gap:'그렇게 말했지만···.\n\n기억하는 이들의 창문도,\n하나둘 어두워지고 있었습니다.'
+  },
+  14:{
+    top:'어느 저녁, 아이 하나가 물었습니다.\n"할머니, 별한테 이야기를 들려주면\n친구가 태어난다는 게 정말이에요?"',
+    bottom:'할머니는 오래 말이 없다가, 창밖을 보았습니다.\n"···글쎄다. 옛날에는 그랬다는데."'
+  },
+  15:{
+    top:'그리고 마침내.\n굶주림에 지친 별들이, 잠들기 시작했습니다.\n동쪽 하늘의 큰 별이 제일 먼저 눈을 감았습니다.',
+    bottom:'별 하나가, 잠들었습니다.'
+  },
+  16:{
+    panels:[
+      {text:'서쪽 하늘의 등불별이 눈을 감았습니다.\n별 둘이, 잠들었습니다.',className:'upper'},
+      {text:'남쪽 바다의 뱃길별이\n마지막 배 한 척을 배웅하고 눈을 감았습니다.\n별 셋이, 잠들었습니다.',className:'lower'}
+    ]
+  },
+  17:{
+    topGap:'하나, 또 하나.\n밤마다 하늘은 조용히 어두워졌습니다.',
+    bottom:'이제 남은 별은 하나.\n하늘 끝, 가장 높은 곳의 가장 작은 별이었습니다.'
   }
 };
 
@@ -143,13 +167,10 @@ function buildBook(){
 function appendSpecialWebtoonLayout(n,image,page){
   const layout=WEBTOON_LAYOUTS[n];
   if(!layout)return false;
-  if(layout.top){
-    const align=n===10?' right':'';
-    image.appendChild(makeTextBlock(`wt-top-caption one-line${align}`,layout.top));
-  }
-  if(layout.cuts){
-    layout.cuts.forEach(cut=>image.appendChild(makeTextBlock(`wt-cut-caption ${cut.className}`,cut.text,false)));
-  }
+  if(layout.topGap)page.appendChild(makeTextBlock('wt-gap wt-gap-before',layout.topGap));
+  if(layout.top)image.appendChild(makeTextBlock(`wt-top-caption ${layout.topClass||''}`.trim(),layout.top));
+  if(layout.cuts)layout.cuts.forEach(cut=>image.appendChild(makeTextBlock(`wt-cut-caption ${cut.className}`,cut.text,false)));
+  if(layout.panels)layout.panels.forEach(panel=>image.appendChild(makeTextBlock(`wt-panel-caption ${panel.className}`,panel.text)));
   if(layout.bottom)image.appendChild(makeTextBlock('wt-overlay',layout.bottom));
   page.appendChild(image);
   if(layout.gap)page.appendChild(makeTextBlock('wt-gap',layout.gap));
@@ -211,8 +232,10 @@ function preventShortLastLines(){
 }
 function fitOneLineCaptions(){
   document.querySelectorAll('.one-line').forEach(box=>{
+    box.style.removeProperty('--pad-x');
     let pad=parseFloat(getComputedStyle(box).getPropertyValue('--pad-x'))||7;
-    for(let i=0;i<6&&box.scrollWidth>box.clientWidth;i++){
+    const target=box.querySelector('p')||box;
+    for(let i=0;i<7&&target.scrollWidth>target.clientWidth;i++){
       pad=Math.max(2,pad-1);box.style.setProperty('--pad-x',`${pad}%`);
     }
   });
