@@ -1,0 +1,47 @@
+/* 이미지 폭 기준 타이포그래피 */
+.wt-page,.wt-image,.wt-cover,.book-page{container-type:inline-size}
+.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p,.layout-gap p{font-size:clamp(14px,2.4cqw,19px);line-height:2.08}
+.book-caption{font-size:clamp(7px,2.15cqw,15px)}
+.cover-title .star{font-size:clamp(18px,3cqw,24px)}
+.cover-title h1{font-size:clamp(20px,4.5cqw,36px)}
+.cover-title small{font-size:clamp(8px,1.5cqw,12px)}
+.book-cover .cover-title h1{font-size:clamp(9px,4.2cqw,18px)}
+.book-cover .cover-title small{font-size:clamp(5px,1.8cqw,9px)}
+
+/* 공통 정렬 */
+.wt-top-caption.layout-left,.wt-overlay.layout-left{text-align:left}
+.wt-top-caption.layout-right,.wt-overlay.layout-right{text-align:right}
+.wt-top-caption.layout-center,.wt-overlay.layout-center{text-align:center}
+.layout-one-line p{white-space:nowrap}
+
+/* 장면 전후 여백 */
+.layout-gap{--pad-x:9%;width:100%;min-height:22cqw;display:flex;align-items:center;padding:9cqw var(--pad-x);background:var(--night);color:#ded8ca}
+.layout-gap.layout-center{justify-content:center;text-align:center}
+.layout-gap.layout-before{min-height:32cqw;align-items:center}
+.layout-gap.layout-after{min-height:34cqw}
+
+/* 장면 23 — 이미지 높이의 130% */
+.scene-23 .layout-scene23{height:173.333cqw;min-height:173.333cqw;padding:0 9%;align-items:center;justify-content:center;text-align:center}
+.scene-23 .layout-scene23 p{font-size:clamp(18px,3.2cqw,26px);letter-spacing:.08em}
+
+/* 장면 24 */
+.scene-24 .layout-scene24{min-height:42cqw;flex-direction:column;gap:3cqw;align-items:center;justify-content:center;text-align:center}
+.scene-24 .layout-scene24-line{width:100%}
+.scene-24 .layout-scene24-line p{white-space:nowrap}
+
+/* 장면 25 */
+.scene-25 .layout-scene25-before{min-height:38cqw;justify-content:center;text-align:center}
+.scene-25 .layout-scene25-after{min-height:34cqw;justify-content:center;text-align:center}
+
+/* 장면 27 */
+.scene-27 .layout-scene27-before{min-height:36cqw}
+.scene-27 .layout-scene27-after{min-height:38cqw;justify-content:center;text-align:center}
+
+/* 장면 28 */
+.scene-28 .layout-final{min-height:90cqw;padding-top:20cqw;padding-bottom:20cqw;align-items:center;justify-content:center;text-align:center}
+.scene-28 .layout-final p{font-size:clamp(18px,3.2cqw,28px);letter-spacing:.28em}
+
+@media(max-width:720px){
+  .wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p,.layout-gap p{font-size:clamp(14px,3.55cqw,18px)}
+  .book-caption{font-size:clamp(7px,3.6cqw,11px)}
+}
