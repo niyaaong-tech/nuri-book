@@ -21,6 +21,7 @@ button{font:inherit}
 .book-cover .cover-title small{font-size:clamp(5px,1.8cqw,9px);letter-spacing:.08em}
 .cover-grad{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 28%,rgba(3,5,10,.42) 58%,rgba(3,5,10,.92) 100%);pointer-events:none}
 .drive-img{display:block;width:100%;height:100%;object-fit:cover;background:#0d1018}
+.wt-cover>.drive-img,.book-cover>.drive-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .img-error{display:flex;width:100%;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:7px;background:#0d111b;color:#33405b;font-family:system-ui,sans-serif;font-size:11px}
 .img-error strong{font-size:28px;color:#27334c}
 
