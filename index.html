@@ -60,6 +60,7 @@ body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;
   .book-caption p{font-size:16px;text-rendering:auto}
 }
 </style>
+<link rel="stylesheet" href="/book-layout.css">
 </head>
 <body>
 <div id="loading"><div class="star">★</div><p id="load-message">이미지 목록 로드 중…</p></div>
@@ -74,6 +75,7 @@ body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;
 <div id="status" aria-live="polite"></div>
 <script src="/scenes.js"></script>
 <script src="/viewer.js"></script>
+<script src="/book-layout.js"></script>
 <script>if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(typeof queueTextFit==='function')queueTextFit()})}</script>
 </body>
 </html>
