@@ -1,5 +1,5 @@
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--paper:#ece5d6;--night:#191714;--ink:#f3ede1;--muted:rgba(255,255,255,.48);--gold:#c99a43;--max-w:800px;--book-fs:clamp(8px,1.14vw,15px)}
+:root{--paper:#ece5d6;--night:#191714;--ink:#f3ede1;--muted:rgba(255,255,255,.48);--gold:#c99a43;--max-w:800px}
 html{scroll-behavior:smooth;background:var(--night)}
 body{min-height:100vh;background:var(--night);font-family:'Nanum Myeongjo',serif;overflow-x:hidden;color:var(--ink)}
 button{font:inherit}
@@ -13,20 +13,21 @@ button{font:inherit}
 .view-toggle{position:absolute;top:16px;right:16px;z-index:20;padding:7px 14px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(10,12,18,.32);backdrop-filter:blur(8px);color:rgba(255,255,255,.78);font-family:system-ui,sans-serif;font-size:11px;letter-spacing:.08em;cursor:pointer;transition:.18s}
 .view-toggle:hover{background:rgba(255,255,255,.17);color:#fff}
 .cover-title{position:absolute;z-index:3;left:0;right:0;bottom:8%;width:100%;max-width:100%;padding-inline:5%;display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center;overflow:hidden}
-.cover-title .star{color:var(--gold);font-size:24px}
-.cover-title h1{max-width:100%;font-size:clamp(20px,4.6vw,36px);letter-spacing:.18em;text-shadow:0 2px 12px rgba(0,0,0,.8);white-space:nowrap}
-.cover-title small{max-width:100%;font-family:system-ui,sans-serif;font-size:clamp(8px,1.8vw,12px);letter-spacing:.16em;color:#9ba4b4;white-space:nowrap}
+.cover-title .star{color:var(--gold);font-size:clamp(18px,3cqw,24px)}
+.cover-title h1{max-width:100%;font-size:clamp(20px,4.5cqw,36px);letter-spacing:.18em;text-shadow:0 2px 12px rgba(0,0,0,.8);white-space:nowrap}
+.cover-title small{max-width:100%;font-family:system-ui,sans-serif;font-size:clamp(8px,1.5cqw,12px);letter-spacing:.16em;color:#9ba4b4;white-space:nowrap}
 .book-cover .cover-title{padding-inline:4%}
-.book-cover .cover-title h1{font-size:clamp(10px,2.35vw,27px);letter-spacing:.12em}
-.book-cover .cover-title small{font-size:clamp(5px,.95vw,10px);letter-spacing:.08em}
+.book-cover .cover-title h1{font-size:clamp(9px,4.2cqw,18px);letter-spacing:.12em}
+.book-cover .cover-title small{font-size:clamp(5px,1.8cqw,9px);letter-spacing:.08em}
 .cover-grad{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 28%,rgba(3,5,10,.42) 58%,rgba(3,5,10,.92) 100%);pointer-events:none}
 .drive-img{display:block;width:100%;height:100%;object-fit:cover;background:#0d1018}
 .img-error{display:flex;width:100%;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:7px;background:#0d111b;color:#33405b;font-family:system-ui,sans-serif;font-size:11px}
 .img-error strong{font-size:28px;color:#27334c}
 
-/* 짧은 마지막 줄 방지: 브라우저 기본 균형 조정 + JS 좌우 여백 축소 */
-.book-caption,.wt-overlay,.wt-gap,.wt-top-caption,.wt-cut-caption,.wt-panel-caption{text-wrap:pretty}
-.book-caption p,.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{word-break:keep-all;overflow-wrap:normal}
+/* 노션 정본의 강제 줄바꿈을 그대로 보존한다. */
+.wt-page,.wt-image,.wt-cover,.book-page{container-type:inline-size}
+.book-caption p,.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{width:100%;word-break:normal;overflow-wrap:normal}
+.text-line{display:inline-block;white-space:nowrap}
 
 /* 동화책뷰 */
 #book-view{display:none;flex-direction:column;align-items:center;gap:clamp(100px,48vh,440px);padding:6vh 0 28vh}
@@ -36,7 +37,7 @@ button{font:inherit}
 .book-page{position:relative;width:50%;height:100%;overflow:hidden;background:#0a0d15}
 .book-page.blank{background:#0b0e15}
 .book-cover{position:relative;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%}
-.book-caption{--pad-x:8%;position:absolute;z-index:5;left:0;right:0;bottom:0;max-height:68%;overflow:hidden;padding:16% var(--pad-x) 6%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.38) 32%,rgba(3,5,10,.76) 68%,rgba(3,5,10,.88) 100%);color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.9);font-size:var(--book-fs);line-height:1.86;white-space:pre-line;word-break:keep-all}
+.book-caption{--pad-x:8%;position:absolute;z-index:5;left:0;right:0;bottom:0;max-height:68%;overflow:hidden;padding:16% var(--pad-x) 6%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.38) 32%,rgba(3,5,10,.76) 68%,rgba(3,5,10,.88) 100%);color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.9);font-size:clamp(7px,2.15cqw,15px);line-height:1.86;word-break:keep-all}
 .end-page{display:flex;align-items:center;justify-content:center;background:var(--paper);color:#685e50;text-align:center;font-size:clamp(13px,1.5vw,20px);line-height:2.4;letter-spacing:.28em}
 
 /* 웹툰뷰 */
@@ -44,23 +45,26 @@ button{font:inherit}
 #webtoon-view.active{display:flex}
 .wt-page{position:relative;width:100%;max-width:var(--max-w);scroll-margin-top:0}
 .wt-cover{position:relative;aspect-ratio:3/4;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8%;overflow:hidden}
+.wt-cover-spacer{width:100%;max-width:var(--max-w);height:min(66.667vw,533px);flex:0 0 auto;background:var(--night)}
 .wt-image{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#0c1018}
 .wt-overlay{--pad-x:9%;position:absolute;z-index:4;left:0;right:0;bottom:0;padding:17% var(--pad-x) 7%;background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.28) 35%,rgba(3,5,10,.67) 72%,rgba(3,5,10,.78) 100%);text-shadow:0 1px 7px rgba(0,0,0,.88)}
-.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{font-size:clamp(14px,3.8vw,19px);line-height:2.08;white-space:pre-line}
-.wt-gap{--pad-x:9%;width:100%;min-height:22vh;display:flex;align-items:center;padding:9vh var(--pad-x);background:var(--night);color:#ded8ca}
+.wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{font-size:clamp(14px,2.4cqw,19px);line-height:2.08}
+.wt-gap{--pad-x:9%;width:100%;min-height:22cqw;display:flex;align-items:center;padding:9cqw var(--pad-x);background:var(--night);color:#ded8ca}
 .wt-gap.center{justify-content:center;text-align:center}
 .wt-gap.right{justify-content:flex-end;text-align:right}
-.wt-gap-before{min-height:18vh;align-items:flex-end;padding-top:5vh;padding-bottom:5vh}
-.wt-spacer{height:min(26.67vw,213px);background:var(--night)}
+.wt-gap-before{min-height:32cqw;align-items:center}
+.wt-spacer{height:min(26.667cqw,213px);background:var(--night)}
+.wt-section-spacer{height:min(26.667cqw,213px)}
 .wt-end{display:flex;align-items:center;justify-content:center;min-height:38vh;color:#64594a;text-align:center;line-height:2.6;letter-spacing:.28em}
 
 /* 장면별 이미지 텍스트 */
 .wt-top-caption{--pad-x:7%;position:absolute;z-index:6;left:0;right:0;top:0;padding:5.5% var(--pad-x) 11%;background:linear-gradient(to bottom,rgba(3,5,10,.62) 0%,rgba(3,5,10,.36) 48%,transparent 100%);color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.9)}
-.wt-top-caption.right{text-align:right}
-.wt-top-caption.one-line p{white-space:nowrap}
+.wt-top-caption.right,.wt-top-caption.layout-right,.wt-overlay.layout-right{text-align:right}
+.wt-top-caption.layout-left,.wt-overlay.layout-left{text-align:left}
+.wt-top-caption.layout-center,.wt-overlay.layout-center{text-align:center}
 .wt-cut-caption{--pad-x:6%;position:absolute;z-index:6;left:0;right:0;top:var(--cut-y);transform:translateY(-100%);padding:5% var(--pad-x) 2.2%;text-align:right;color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.94);background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.28) 52%,rgba(3,5,10,.52) 100%)}
-.wt-cut-caption.dark{color:#51483c;text-shadow:none;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.16) 58%,rgba(255,255,255,.36) 100%)}
-.wt-cut-caption p{white-space:nowrap}
+.wt-cut-caption.dark{color:#2f271e;background:linear-gradient(to bottom,transparent 0%,rgba(255,255,255,.16) 58%,rgba(255,255,255,.36) 100%)}
+.scene-10 .wt-cut-caption.readability-glow{font-weight:700;text-shadow:0 0 3px rgba(255,250,236,.58),0 0 8px rgba(255,246,222,.3)}
 .wt-panel-caption{--pad-x:8%;position:absolute;z-index:6;left:0;right:0;padding:8% var(--pad-x) 3%;color:#f4eee4;text-shadow:0 1px 7px rgba(0,0,0,.94);background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.32) 54%,rgba(3,5,10,.62) 100%)}
 .wt-panel-caption.upper{top:50%;transform:translateY(-100%)}
 .wt-panel-caption.lower{bottom:0}
@@ -72,6 +76,15 @@ button{font:inherit}
 .scene-14 .wt-overlay{padding-top:19%}
 .scene-15 .wt-overlay{padding-top:14%}
 .scene-16 .wt-panel-caption p{line-height:1.95}
+
+/* 후반부 확정 배치 */
+.scene-23 .scene23-gap{height:173.333cqw;min-height:173.333cqw;padding:0 9%;align-items:center;justify-content:center;text-align:center}
+.scene-23 .scene23-gap p{font-size:clamp(18px,3.2cqw,26px);letter-spacing:.08em}
+.scene-24 .scene24-gap{min-height:42cqw;justify-content:center;text-align:center}
+.scene-25 .scene25-before{min-height:38cqw;justify-content:center;text-align:center}
+.scene-25 .scene25-after{min-height:34cqw;justify-content:center;text-align:center}
+.scene-27 .scene27-before{min-height:36cqw}
+.scene-27 .scene27-after{min-height:38cqw;justify-content:center;text-align:center}
 
 /* 우측 하단 고정 페이지 이동 */
 #nav{position:fixed;z-index:500;right:max(12px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:7px;opacity:.9}
@@ -86,12 +99,13 @@ button{font:inherit}
   #indicator{min-width:40px;font-size:9px}
   #book-view{gap:24vh;padding-top:4vh}
   .spread{width:98vw}
-  .book-caption{--pad-x:7%;padding-top:14%;font-size:clamp(6.5px,1.75vw,10px);line-height:1.65}
+  .book-caption{--pad-x:7%;padding-top:14%;font-size:clamp(7px,3.6cqw,11px);line-height:1.65}
   .view-toggle{top:10px;right:10px;padding:6px 11px;font-size:10px}
   .wt-top-caption{--pad-x:4.5%}
   .wt-cut-caption{--pad-x:4.5%}
   .wt-panel-caption{--pad-x:5%}
-  .book-cover .cover-title h1{font-size:clamp(9px,2.55vw,14px)}
+  .wt-overlay p,.wt-gap p,.wt-top-caption p,.wt-cut-caption p,.wt-panel-caption p{font-size:clamp(14px,3.55cqw,18px)}
+  .book-cover .cover-title h1{font-size:clamp(9px,2.55cqw,14px)}
   .book-cover .cover-title small{font-size:5px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
