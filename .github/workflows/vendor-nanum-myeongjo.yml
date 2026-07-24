@@ -8,14 +8,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   vendor-fonts:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out PR branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Build Nanum Myeongjo WOFF2 from official Google Fonts source
         shell: bash
@@ -43,10 +45,16 @@ jobs:
           test "$(head -c 4 assets/fonts/NanumMyeongjo-Regular.woff2)" = 'wOF2'
           test "$(head -c 4 assets/fonts/NanumMyeongjo-Bold.woff2)" = 'wOF2'
 
-      - name: Upload font bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: nanum-myeongjo-webfonts
-          path: assets/fonts
-          if-no-files-found: error
-          retention-days: 1
+      - name: Commit font bundle to PR branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/fonts
+          if git diff --cached --quiet; then
+            echo 'Font files already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Vendor Nanum Myeongjo webfonts [skip ci]'
+          git push origin "HEAD:${{ github.head_ref }}"
