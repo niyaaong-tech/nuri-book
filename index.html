@@ -36,24 +36,19 @@ body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;
 .scene-10 .wt-cut-caption.cut-1,
 .scene-10 .wt-cut-caption.cut-3{text-shadow:0 0 2px rgba(30,26,22,.72),0 0 7px rgba(30,26,22,.48)}
 
-/* Windows Chrome의 ClearType RGB 번짐을 피하고 회색조 안티앨리어싱으로 고정한다. */
+/* PC 1배율에서 작은 명조체의 획이 깨지지 않도록 정수 픽셀 크기로 표시한다. */
 @media (min-width:721px){
-  .book-caption p,
+  .wt-overlay,
+  .wt-gap,
+  .wt-top-caption,
+  .wt-cut-caption,
+  .wt-panel-caption{--pad-x:7%}
   .wt-overlay p,
   .wt-gap p,
   .wt-top-caption p,
   .wt-cut-caption p,
-  .wt-panel-caption p,
-  .cover-title h1,
-  .cover-title small,
-  .wt-end{
-    opacity:.999;
-    transform:translateZ(0);
-    backface-visibility:hidden;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    text-rendering:optimizeLegibility;
-  }
+  .wt-panel-caption p{font-size:23px;line-height:2;text-rendering:auto}
+  .book-caption p{font-size:16px;text-rendering:auto}
 }
 </style>
 </head>
