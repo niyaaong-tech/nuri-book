@@ -9,7 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/viewer.css">
-<style>#webtoon-view{padding-top:clamp(24px,6vh,56px)}</style>
+<style>
+#webtoon-view{padding-top:clamp(24px,6vh,56px)}
+.scene-20 .wt-top-caption{padding-top:2.75%}
+.scene-23 .wt-top-caption{padding-top:16.5%}
+.scene-25 .scene25-after{justify-content:flex-start;text-align:left}
+.scene-15 .wt-top-caption .text-line:nth-of-type(2),
+.scene-15 .wt-top-caption .text-line:nth-of-type(4),
+#book-view .spread:nth-of-type(9) .book-page:first-child .book-caption .text-line:nth-of-type(2),
+#book-view .spread:nth-of-type(9) .book-page:first-child .book-caption .text-line:nth-of-type(4),
+.scene-15 .wt-top-caption br:nth-of-type(2),
+.scene-15 .wt-top-caption br:nth-of-type(4),
+#book-view .spread:nth-of-type(9) .book-page:first-child .book-caption br:nth-of-type(2),
+#book-view .spread:nth-of-type(9) .book-page:first-child .book-caption br:nth-of-type(4){display:none}
+</style>
 </head>
 <body>
 <div id="loading"><div class="star">★</div><p id="load-message">이미지 목록 로드 중…</p></div>
