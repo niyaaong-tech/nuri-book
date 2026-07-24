@@ -40,6 +40,7 @@
 .book-layout-page .align-center{text-align:center}
 .book-layout-page .book-dark{color:#2f271e;text-shadow:0 0 2px rgba(255,250,236,.5),0 0 5px rgba(255,246,222,.26)}
 .book-layout-page .book-ink-glow{text-shadow:0 0 2px rgba(30,26,22,.72),0 0 7px rgba(30,26,22,.48)}
+.end-page p{font-weight:700}
 
 /* 1080p 풀화면에서 일반 18~20px, 긴 문장도 18px 부근을 확보한다. */
 @media(min-width:721px){
