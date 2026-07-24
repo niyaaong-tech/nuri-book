@@ -15,35 +15,40 @@ function nonBlankLines(text){
   return paragraphLines(text).filter(line=>line.trim()!=='');
 }
 
+function joinParagraphs(parts){
+  return parts.filter(part=>String(part??'').trim()!=='').join('\n\n');
+}
+
+/*
+ * 동화책뷰 배치 원칙
+ * - 기본은 상단 1블록 + 하단 1블록이다.
+ * - 같은 흐름의 문단은 한 블록으로 묶는다.
+ * - 중앙 배치는 웹뷰에서도 중앙 배치가 필요한 장면에만 쓴다.
+ * - 3블록은 실제 3단 장면인 장면 10에만 사용한다.
+ */
 function appendBookSceneLayout(n,page){
   const p=sceneParagraphs(n);
   let lines;
 
   switch(n){
     case 1:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-at-28 align-left',p[1]);
-      appendBookText(page,'book-at-56 align-left',p[2]);
-      appendBookText(page,'book-bottom align-left',p[3]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
+      appendBookText(page,'book-bottom align-left compact',joinParagraphs([p[2],p[3]]));
       break;
     case 2:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-middle align-left',p[1]);
+      appendBookText(page,'book-top align-left',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-left',p[2]);
       break;
     case 3:
       appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-at-43 align-left compact',p[1]);
-      appendBookText(page,'book-bottom align-left',p[2]);
+      appendBookText(page,'book-bottom align-left compact',joinParagraphs([p[1],p[2]]));
       break;
     case 4:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-middle align-left',p[1]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-left',p[2]);
       break;
     case 5:
-      appendBookText(page,'book-top align-left compact',p[0]);
-      appendBookText(page,'book-middle align-left compact',p[1]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-left compact',p[2]);
       break;
     case 6:
@@ -52,39 +57,29 @@ function appendBookSceneLayout(n,page){
       break;
     case 8:
       appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-bottom align-left',p[1]);
+      appendBookText(page,'book-bottom align-left compact',p[1]);
       break;
     case 9:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-middle align-left',p[1]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-left',p[2]);
       break;
     case 10:
-      appendBookText(page,'book-top align-right',p[0]);
       lines=nonBlankLines(p[1]);
-      appendBookText(page,'book-at-29 align-right book-cut',lines[0]);
-      appendBookText(page,'book-at-51 align-right book-cut book-dark',lines[1]);
-      appendBookText(page,'book-at-72 align-right book-cut',lines[2]);
-      appendBookText(page,'book-bottom align-left',p[2]);
+      appendBookText(page,'book-top align-right compact',joinParagraphs([p[0],lines[0]]));
+      appendBookText(page,'book-middle align-right book-dark',lines[1]);
+      appendBookText(page,'book-bottom align-left compact',joinParagraphs([lines[2],p[2]]));
       break;
     case 11:
-      lines=nonBlankLines(p[0]);
-      appendBookText(page,'book-top align-left',lines[0]);
-      appendBookText(page,'book-at-31 align-left',lines[1]);
-      appendBookText(page,'book-at-59 align-left',p[1]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-left compact',p[2]);
       break;
     case 12:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-at-30 align-left',p[1]);
-      appendBookText(page,'book-at-56 align-left',p[2]);
-      appendBookText(page,'book-bottom align-left',p[3]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
+      appendBookText(page,'book-bottom align-left compact',joinParagraphs([p[2],p[3]]));
       break;
     case 13:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-at-31 align-left',p[1]);
-      appendBookText(page,'book-at-58 align-left',p[2]);
-      appendBookText(page,'book-bottom align-left',p[3]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
+      appendBookText(page,'book-bottom align-left compact',joinParagraphs([p[2],p[3]]));
       break;
     case 14:
       appendBookText(page,'book-top align-left compact',p[0]);
@@ -92,11 +87,11 @@ function appendBookSceneLayout(n,page){
       break;
     case 15:
       lines=nonBlankLines(p[2]);
-      appendBookText(page,'book-top align-left dense',[p[0],p[1],lines[0]].join('\n\n'));
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1],lines[0]]));
       appendBookText(page,'book-bottom align-left',lines[1]);
       break;
     case 16:
-      appendBookText(page,'book-at-37 align-left',p[0]);
+      appendBookText(page,'book-top align-left compact',p[0]);
       appendBookText(page,'book-bottom align-left compact',p[1]);
       break;
     case 17:
@@ -104,59 +99,45 @@ function appendBookSceneLayout(n,page){
       appendBookText(page,'book-bottom align-left',p[1]);
       break;
     case 18:
-      appendBookText(page,'book-top align-left',p[0]);
+      appendBookText(page,'book-top align-left compact',p[0]);
       appendBookText(page,'book-bottom align-left compact',p[1]);
       break;
     case 19:
       appendBookText(page,'book-top align-left compact',p[0]);
-      appendBookText(page,'book-middle align-left compact',p[1]);
-      appendBookText(page,'book-bottom align-left compact',p[2]);
+      appendBookText(page,'book-bottom align-left dense',joinParagraphs([p[1],p[2]]));
       break;
     case 20:
-      appendBookText(page,'book-top align-right',p[0]);
-      appendBookText(page,'book-at-40 align-right compact',p[1]);
-      lines=nonBlankLines(p[2]);
-      appendBookText(page,'book-at-67 align-right compact',lines.slice(0,2).join('\n'));
-      appendBookText(page,'book-bottom align-right',lines[2]);
+      appendBookText(page,'book-top align-right compact',joinParagraphs([p[0],p[1]]));
+      appendBookText(page,'book-bottom align-right compact',p[2]);
       break;
     case 21:
-      appendBookText(page,'book-middle align-left',p[0]);
-      lines=nonBlankLines(p[1]);
-      appendBookText(page,'book-at-72 align-left one-line',lines[0]);
-      appendBookText(page,'book-bottom align-left dense',lines.slice(1).join('\n'));
+      appendBookText(page,'book-middle align-left compact',p[0]);
+      appendBookText(page,'book-bottom align-left dense',p[1]);
       break;
     case 22:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-bottom align-center',p[1]);
+      appendBookText(page,'book-bottom align-center',joinParagraphs([p[0],p[1]]));
       break;
     case 23:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-middle align-left',p[1]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
       appendBookText(page,'book-bottom align-center',p[2]);
       break;
     case 24:
-      appendBookText(page,'book-middle align-center',p[0]);
-      appendBookText(page,'book-at-72 align-center',p[1]);
+      appendBookText(page,'book-bottom align-center compact book-ink-glow',joinParagraphs([p[0],p[1]]));
       break;
     case 25:
-      appendBookText(page,'book-top align-center',p[0]);
-      lines=nonBlankLines(p[1]);
-      appendBookText(page,'book-at-68 align-left',lines[0]);
-      appendBookText(page,'book-bottom align-left',lines[1]);
+      appendBookText(page,'book-top align-center compact',p[0]);
+      appendBookText(page,'book-bottom align-left compact',p[1]);
       break;
     case 26:
       appendBookText(page,'book-top align-right compact',p[0]);
-      lines=nonBlankLines(p[1]);
-      appendBookText(page,'book-at-66 align-left compact',lines.slice(0,2).join('\n'));
-      appendBookText(page,'book-bottom align-left',lines[2]);
+      appendBookText(page,'book-bottom align-left compact',p[1]);
       break;
     case 27:
-      appendBookText(page,'book-top align-left',p[0]);
-      appendBookText(page,'book-middle align-center',p[1]);
-      appendBookText(page,'book-bottom align-center',p[2]);
+      appendBookText(page,'book-top align-left compact',joinParagraphs([p[0],p[1]]));
+      appendBookText(page,'book-bottom align-center compact',p[2]);
       break;
     case 28:
-      appendBookText(page,'book-at-66 align-center compact',p[0]);
+      appendBookText(page,'book-bottom align-center compact',p[0]);
       break;
     default:
       appendBookText(page,'book-bottom align-left dense',SCENES[n]);
