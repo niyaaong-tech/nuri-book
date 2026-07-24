@@ -23,10 +23,10 @@ jobs:
           set -euo pipefail
           mkdir -p assets/fonts
           curl -L --fail --retry 3 \
-            'https://cdn.jsdelivr.net/gh/sweetherofonts/fontshero_pack3/nanum-myeongjo/nanum-myeongjo-Regular.woff2' \
+            'https://raw.githubusercontent.com/sweetherofonts/fontshero_pack3/main/nanum-myeongjo/nanum-myeongjo-Regular.woff2' \
             -o assets/fonts/NanumMyeongjo-Regular.woff2
           curl -L --fail --retry 3 \
-            'https://cdn.jsdelivr.net/gh/sweetherofonts/fontshero_pack3/nanum-myeongjo/nanum-myeongjo-Bold.woff2' \
+            'https://raw.githubusercontent.com/sweetherofonts/fontshero_pack3/main/nanum-myeongjo/nanum-myeongjo-Bold.woff2' \
             -o assets/fonts/NanumMyeongjo-Bold.woff2
           curl -L --fail --retry 3 \
             'https://raw.githubusercontent.com/google/fonts/main/ofl/nanummyeongjo/OFL.txt' \
