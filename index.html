@@ -23,6 +23,16 @@
 .scene-15 .wt-top-caption br:nth-of-type(4),
 #book-view .spread:nth-of-type(9) .book-page:first-child .book-caption br:nth-of-type(2),
 #book-view .spread:nth-of-type(9) .book-page:first-child .book-caption br:nth-of-type(4){display:none}
+
+/* 이미지 텍스트 오버레이 정책 */
+.wt-top-caption,
+.wt-cut-caption,
+.wt-panel-caption.upper{background:none!important;text-shadow:none}
+.wt-overlay{background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.14) 35%,rgba(3,5,10,.335) 72%,rgba(3,5,10,.39) 100%);text-shadow:none}
+.wt-panel-caption.lower{background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.16) 54%,rgba(3,5,10,.31) 100%);text-shadow:none}
+.book-caption{background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.19) 32%,rgba(3,5,10,.38) 68%,rgba(3,5,10,.44) 100%);text-shadow:none}
+.scene-10 .wt-cut-caption.cut-1,
+.scene-10 .wt-cut-caption.cut-3{text-shadow:0 0 2px rgba(30,26,22,.72),0 0 7px rgba(30,26,22,.48)}
 </style>
 </head>
 <body>
