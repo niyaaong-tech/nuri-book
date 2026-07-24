@@ -1,2 +1,2 @@
 Generate the vendored Nanum Myeongjo webfont bundle.
-Retry with official Google Fonts source conversion.
+Commit the official-source WOFF2 files to this branch.
