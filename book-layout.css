@@ -1,4 +1,4 @@
-/* 동화책뷰 전용 텍스트 배치. 웹툰뷰에는 적용하지 않는다. */
+/* 동화책뷰 전용 텍스트 배치. 웹뷰에는 적용하지 않는다. */
 .book-layout-page>.drive-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .book-layout-page .book-text{
   --pad-x:7%;
@@ -9,58 +9,48 @@
   bottom:auto;
   max-height:none;
   overflow:visible;
-  padding:3.5% var(--pad-x);
+  padding:4% var(--pad-x);
   background:none;
   color:#f4eee4;
   text-shadow:none;
   font-weight:700;
-  line-height:1.82;
+  line-height:1.78;
   word-break:keep-all;
   pointer-events:none;
 }
 .book-layout-page .book-text p{
   width:100%;
-  font-size:clamp(7px,2.35cqw,14px);
-  line-height:1.82;
+  font-size:clamp(11px,2.45cqw,18px);
+  line-height:1.78;
   font-weight:700;
 }
-.book-layout-page .book-text.compact p{font-size:clamp(6.5px,2.16cqw,13px);line-height:1.76}
-.book-layout-page .book-text.dense p{font-size:clamp(6px,1.96cqw,12px);line-height:1.7}
-.book-layout-page .book-text.one-line p{white-space:nowrap}
+.book-layout-page .book-text.compact p{font-size:clamp(10px,2.3cqw,17px);line-height:1.72}
+.book-layout-page .book-text.dense p{font-size:clamp(9px,2.2cqw,16px);line-height:1.66}
 .book-layout-page .book-top{top:3.5%}
 .book-layout-page .book-middle{top:50%;transform:translateY(-50%)}
-.book-layout-page .book-at-28{top:28%;transform:translateY(-50%)}
-.book-layout-page .book-at-29{top:29%;transform:translateY(-50%)}
-.book-layout-page .book-at-30{top:30%;transform:translateY(-50%)}
-.book-layout-page .book-at-31{top:31%;transform:translateY(-50%)}
-.book-layout-page .book-at-37{top:37%;transform:translateY(-50%)}
-.book-layout-page .book-at-40{top:40%;transform:translateY(-50%)}
-.book-layout-page .book-at-43{top:43%;transform:translateY(-50%)}
-.book-layout-page .book-at-51{top:51%;transform:translateY(-50%)}
-.book-layout-page .book-at-56{top:56%;transform:translateY(-50%)}
-.book-layout-page .book-at-58{top:58%;transform:translateY(-50%)}
-.book-layout-page .book-at-59{top:59%;transform:translateY(-50%)}
-.book-layout-page .book-at-66{top:66%;transform:translateY(-50%)}
-.book-layout-page .book-at-67{top:67%;transform:translateY(-50%)}
-.book-layout-page .book-at-68{top:68%;transform:translateY(-50%)}
-.book-layout-page .book-at-72{top:72%;transform:translateY(-50%)}
 .book-layout-page .book-bottom{
   top:auto;
   bottom:0;
-  padding-top:11%;
-  padding-bottom:5%;
-  background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.16) 48%,rgba(3,5,10,.36) 100%);
+  padding-top:12%;
+  padding-bottom:5.5%;
+  background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.12) 48%,rgba(3,5,10,.31) 100%);
 }
 .book-layout-page .align-left{text-align:left}
 .book-layout-page .align-right{text-align:right}
 .book-layout-page .align-center{text-align:center}
-.book-layout-page .book-cut{padding-top:1%;padding-bottom:1%}
 .book-layout-page .book-dark{color:#2f271e;text-shadow:0 0 2px rgba(255,250,236,.5),0 0 5px rgba(255,246,222,.26)}
+.book-layout-page .book-ink-glow{text-shadow:0 0 2px rgba(20,18,16,.78),0 0 7px rgba(20,18,16,.5)}
 
+/* 1080p 풀화면에서 일반 16~18px, 긴 문장도 16px 부근을 확보한다. */
+@media(min-width:721px){
+  .book-layout-page .book-text{--pad-x:6.5%}
+}
+
+/* 양면 고정 구조상 모바일에서는 페이지 폭에 맞춰 축소한다. */
 @media(max-width:720px){
-  .book-layout-page .book-text{--pad-x:5.5%;padding-top:2.8%;padding-bottom:2.8%}
-  .book-layout-page .book-text p{font-size:clamp(6.5px,3.45cqw,9px);line-height:1.65}
-  .book-layout-page .book-text.compact p{font-size:clamp(6px,3.15cqw,8.5px);line-height:1.6}
-  .book-layout-page .book-text.dense p{font-size:clamp(5.5px,2.85cqw,8px);line-height:1.56}
+  .book-layout-page .book-text{--pad-x:5.5%;padding-top:3%;padding-bottom:3%}
+  .book-layout-page .book-text p{font-size:clamp(8px,4.5cqw,11px);line-height:1.62}
+  .book-layout-page .book-text.compact p{font-size:clamp(7.5px,4.15cqw,10px);line-height:1.58}
+  .book-layout-page .book-text.dense p{font-size:clamp(7px,3.85cqw,9px);line-height:1.52}
   .book-layout-page .book-bottom{padding-top:10%;padding-bottom:4%}
 }
