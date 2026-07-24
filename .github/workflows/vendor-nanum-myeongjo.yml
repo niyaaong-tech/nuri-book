@@ -17,20 +17,28 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Download Nanum Myeongjo webfonts and license
+      - name: Build Nanum Myeongjo WOFF2 from official Google Fonts source
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf /tmp/google-fonts
+          git clone --depth 1 --filter=blob:none --sparse https://github.com/google/fonts.git /tmp/google-fonts
+          git -C /tmp/google-fonts sparse-checkout set ofl/nanummyeongjo
+
+          python -m pip install --quiet 'fonttools[woff]'
           mkdir -p assets/fonts
-          curl -L --fail --retry 3 \
-            'https://raw.githubusercontent.com/sweetherofonts/fontshero_pack3/main/nanum-myeongjo/nanum-myeongjo-Regular.woff2' \
-            -o assets/fonts/NanumMyeongjo-Regular.woff2
-          curl -L --fail --retry 3 \
-            'https://raw.githubusercontent.com/sweetherofonts/fontshero_pack3/main/nanum-myeongjo/nanum-myeongjo-Bold.woff2' \
-            -o assets/fonts/NanumMyeongjo-Bold.woff2
-          curl -L --fail --retry 3 \
-            'https://raw.githubusercontent.com/google/fonts/main/ofl/nanummyeongjo/OFL.txt' \
-            -o assets/fonts/OFL-NanumMyeongjo.txt
+          python - <<'PY'
+          from pathlib import Path
+          from fontTools.ttLib import TTFont
+
+          src_dir = Path('/tmp/google-fonts/ofl/nanummyeongjo')
+          out_dir = Path('assets/fonts')
+          for weight in ('Regular', 'Bold'):
+              font = TTFont(src_dir / f'NanumMyeongjo-{weight}.ttf')
+              font.flavor = 'woff2'
+              font.save(out_dir / f'NanumMyeongjo-{weight}.woff2')
+          PY
+          cp /tmp/google-fonts/ofl/nanummyeongjo/OFL.txt assets/fonts/OFL-NanumMyeongjo.txt
 
           test "$(head -c 4 assets/fonts/NanumMyeongjo-Regular.woff2)" = 'wOF2'
           test "$(head -c 4 assets/fonts/NanumMyeongjo-Bold.woff2)" = 'wOF2'
