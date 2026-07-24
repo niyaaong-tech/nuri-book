@@ -9,8 +9,8 @@
 <link rel="preload" href="/assets/fonts/NanumMyeongjo-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/viewer.css">
 <style>
-@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Bold.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
+@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:block}
+@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Bold.woff2') format('woff2');font-style:normal;font-weight:700;font-display:block}
 body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;font-synthesis:none}
 #webtoon-view{padding-top:clamp(24px,6vh,56px)}
 .scene-20 .wt-top-caption{padding-top:2.75%}
@@ -35,6 +35,26 @@ body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;
 .book-caption{background:linear-gradient(to bottom,transparent 0%,rgba(3,5,10,.19) 32%,rgba(3,5,10,.38) 68%,rgba(3,5,10,.44) 100%);text-shadow:none}
 .scene-10 .wt-cut-caption.cut-1,
 .scene-10 .wt-cut-caption.cut-3{text-shadow:0 0 2px rgba(30,26,22,.72),0 0 7px rgba(30,26,22,.48)}
+
+/* Windows Chrome의 ClearType RGB 번짐을 피하고 회색조 안티앨리어싱으로 고정한다. */
+@media (min-width:721px){
+  .book-caption p,
+  .wt-overlay p,
+  .wt-gap p,
+  .wt-top-caption p,
+  .wt-cut-caption p,
+  .wt-panel-caption p,
+  .cover-title h1,
+  .cover-title small,
+  .wt-end{
+    opacity:.999;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+  }
+}
 </style>
 </head>
 <body>
