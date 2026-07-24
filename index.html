@@ -5,11 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="referrer" content="no-referrer">
 <title>이야기가 마르던 밤</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/NanumMyeongjo-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/NanumMyeongjo-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/viewer.css">
 <style>
+@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Nanum Myeongjo';src:url('/assets/fonts/NanumMyeongjo-Bold.woff2') format('woff2');font-style:normal;font-weight:700;font-display:swap}
+body{font-family:'Nanum Myeongjo','NanumMyeongjo','AppleMyungjo','Batang',serif;font-synthesis:none}
 #webtoon-view{padding-top:clamp(24px,6vh,56px)}
 .scene-20 .wt-top-caption{padding-top:2.75%}
 .scene-21 .wt-top-caption{top:50%;transform:translateY(-50%);padding-top:5.5%;padding-bottom:5.5%;text-align:left}
@@ -48,5 +50,6 @@
 <div id="status" aria-live="polite"></div>
 <script src="/scenes.js"></script>
 <script src="/viewer.js"></script>
+<script>if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(typeof queueTextFit==='function')queueTextFit()})}</script>
 </body>
 </html>
